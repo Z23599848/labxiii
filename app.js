@@ -1,137 +1,144 @@
+/**
+ * LabXIII - Advanced 3D Mesh Engine (Three.js)
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Navigation Scroll Effect ---
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.add('scrolled'); // or remove depending on preference. Let's make it always blurred if desired, but toggle is better.
-            if (window.scrollY === 0) navbar.classList.remove('scrolled');
-        }
+    // --- 1. Three.js: The Mesh Object ---
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // Geometry: Torus Knot for "Complexity"
+    const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+    const wireframe = new THREE.WireframeGeometry(geometry);
+    
+    const material = new THREE.LineBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.25, // Subtle professional look
+        linewidth: 1
     });
 
-    // --- Scroll Reveal Animations ---
-    const reveals = document.querySelectorAll('.reveal');
-    const revealOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
-    };
+    const mesh = new THREE.LineSegments(wireframe, material);
+    scene.add(mesh);
 
-    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('active');
-            observer.unobserve(entry.target);
-        });
-    }, revealOptions);
+    camera.position.z = 30;
 
-    reveals.forEach(reveal => {
-        revealOnScroll.observe(reveal);
+    // Interaction State
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+        // Normalize mouse to -1 to 1
+        targetX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+        targetY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
     });
 
-    // --- Interactive Canvas Background ---
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // 3D Animation Loop
+    function animate3D() {
+        requestAnimationFrame(animate3D);
+
+        // Smoothly interpolate mouse movement ("Active Reactivity")
+        mouseX += (targetX - mouseX) * 0.05;
+        mouseY += (targetY - mouseY) * 0.05;
+
+        // Base continuous rotation
+        mesh.rotation.y += 0.002;
+        mesh.rotation.z += 0.001;
+
+        // Mouse-driven active tilt/rotation
+        mesh.rotation.x = mouseY * 0.5;
+        mesh.rotation.y += mouseX * 0.1;
+
+        // Subtle pulsing scale factor
+        const time = Date.now() * 0.001;
+        mesh.scale.setScalar(1 + Math.sin(time) * 0.05);
+
+        renderer.render(scene, camera);
+    }
+
+    animate3D();
+
+    // --- 2. 2D Particle Grid Overlay ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let width, height;
-    
     let particles = [];
-    const particleCount = 80; // Adjust for density
-    const connectionDistance = 150;
-    const lineColor = 'rgba(255, 255, 255, '; // White with opacity
+    const particleCount = 100;
+    const connectionDistance = 180;
     
-    // Resize canvas
-    function resize() {
+    function resize2D() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
     }
     
-    window.addEventListener('resize', resize);
-    resize();
-
-    // Mouse Interaction
-    let mouse = {
-        x: null,
-        y: null,
-        radius: 150
-    }
-
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.x;
-        mouse.y = e.y;
-    });
-
-    window.addEventListener('mouseout', () => {
-        mouse.x = undefined;
-        mouse.y = undefined;
-    });
+    window.addEventListener('resize', resize2D);
+    resize2D();
 
     class Particle {
         constructor() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.5;
-            this.vy = (Math.random() - 0.5) * 0.5;
-            this.size = Math.random() * 2 + 0.5;
+            this.vx = (Math.random() - 0.5) * 0.3;
+            this.vy = (Math.random() - 0.5) * 0.3;
+            this.size = Math.random() * 1.5;
         }
 
         update() {
-            if (this.x > width || this.x < 0) this.vx = -this.vx;
-            if (this.y > height || this.y < 0) this.vy = -this.vy;
-
-            // Interactive burst
-            if (mouse.x && mouse.y) {
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < mouse.radius) {
-                    const forceDirectionX = dx / distance;
-                    const forceDirectionY = dy / distance;
-                    const maxDistance = mouse.radius;
-                    const force = (maxDistance - distance) / maxDistance;
-                    const directionX = forceDirectionX * force * 2;
-                    const directionY = forceDirectionY * force * 2;
-                    
-                    this.x -= directionX;
-                    this.y -= directionY;
-                }
-            }
-
             this.x += this.vx;
             this.y += this.vy;
+
+            if (this.x > width) this.x = 0;
+            if (this.x < 0) this.x = width;
+            if (this.y > height) this.y = 0;
+            if (this.y < 0) this.y = height;
         }
 
         draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
             ctx.fill();
         }
     }
 
-    function initParticles() {
+    function init2D() {
         particles = [];
         for (let i = 0; i < particleCount; i++) {
             particles.push(new Particle());
         }
     }
 
-    function animate() {
+    function animate2D() {
         ctx.clearRect(0, 0, width, height);
 
         for (let i = 0; i < particles.length; i++) {
             particles[i].update();
             particles[i].draw();
 
-            // Connect particles
-            for (let j = i; j < particles.length; j++) {
+            for (let j = i + 1; j < particles.length; j++) {
                 let dx = particles[i].x - particles[j].x;
                 let dy = particles[i].y - particles[j].y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
+                let dist = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance < connectionDistance) {
+                if (dist < connectionDistance) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `${lineColor}${1 - distance/connectionDistance})`;
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - dist / connectionDistance)})`;
                     ctx.lineWidth = 0.5;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
@@ -139,10 +146,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-        requestAnimationFrame(animate);
+        requestAnimationFrame(animate2D);
     }
 
-    initParticles();
-    animate();
+    init2D();
+    animate2D();
+
+    // --- 3. UI scroll logic ---
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const callback = (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }
+    const observer = new IntersectionObserver(callback, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
 
 });
