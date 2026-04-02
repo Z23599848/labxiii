@@ -81,14 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3D Animation Loop
     function animate3D() {
         requestAnimationFrame(animate3D);
-        mouseX += (targetX - mouseX) * 0.05;
-        mouseY += (targetY - mouseY) * 0.05;
-        mesh.rotation.y += 0.002;
-        mesh.rotation.z += 0.001;
-        mesh.rotation.x = mouseY * 0.5;
-        mesh.rotation.y += mouseX * 0.1;
-        const time = Date.now() * 0.001;
-        mesh.scale.setScalar(1 + Math.sin(time) * 0.05);
+        mouseX += (targetX - mouseX) * 0.02;
+        mouseY += (targetY - mouseY) * 0.02;
+        mesh.rotation.y += 0.0005;
+        mesh.rotation.z += 0.0002;
+        mesh.rotation.x = mouseY * 0.2;
+        mesh.rotation.y += mouseX * 0.05;
+        const time = Date.now() * 0.0005;
+        mesh.scale.setScalar(1 + Math.sin(time) * 0.03);
         renderer.render(scene, camera);
     }
     animate3D();
