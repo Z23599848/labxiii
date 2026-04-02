@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let particles = [];
     const particleCount = 80; // Adjust for density
     const connectionDistance = 150;
+    const lineColor = 'rgba(255, 255, 255, '; // White with opacity
     
     // Resize canvas
     function resize() {
@@ -130,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (distance < connectionDistance) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(0, 240, 255, ${1 - distance/connectionDistance})`;
+                    ctx.strokeStyle = `${lineColor}${1 - distance/connectionDistance})`;
                     ctx.lineWidth = 0.5;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);

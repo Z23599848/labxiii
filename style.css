@@ -2,10 +2,10 @@
     --bg-color: #030407; /* Deep almost-black space void */
     --text-main: #f5f6fa;
     --text-muted: #8892b0;
-    --accent-glow: rgba(0, 240, 255, 0.6); /* Cyan neon accent */
-    --accent-solid: #00f0ff;
-    --border-glass: rgba(255, 255, 255, 0.05);
-    --bg-glass: rgba(15, 20, 25, 0.4);
+    --accent-glow: rgba(255, 255, 255, 0.2); /* Soft pure white glow */
+    --accent-solid: #ffffff; /* Solid white */
+    --border-glass: rgba(255, 255, 255, 0.1);
+    --bg-glass: rgba(0, 0, 0, 0.6);
     
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
@@ -201,6 +201,7 @@ a {
 .hero-title .highlight {
     background: linear-gradient(90deg, #fff, var(--accent-solid));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 .hero-subtitle {
