@@ -3,14 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LabXIII Ltd</title>
-    <style>
-        body { font-family: sans-serif; background: #fafafa; color: #333; text-align: center; padding-top: 100px; }
-        h1 { font-weight: normal; }
-    </style>
+    <title>LabXIII Ltd | Engineering the Future</title>
+    <meta name="description" content="LabXIII Ltd is a vanguard in aerospace manufacturing, intelligent software systems, and advanced scientific research.">
+    <meta name="author" content="Ali Ganji">
+    <meta property="og:title" content="LabXIII Ltd | Engineering the Future">
+    <meta property="og:description" content="Pioneering the intersection of aerospace, software, and science.">
+    <meta property="og:url" content="https://labxiii.org">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://labxiii.org/logo.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to LabXIII Ltd</h1>
-    <p>This is the official GitHub Pages site.</p>
+
+    <!-- Dynamic Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo.png" alt="LabXIII Logo">
+                <span class="company-name">LabXIII</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about">Mission</a></li>
+                <li><a href="#divisions">Divisions</a></li>
+                <li><a href="#leadership">Leadership</a></li>
+                <li><a href="#contact" class="btn-primary-outline">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+        <div class="hero-content reveal">
+            <h1 class="hero-title">Engineering<br>the <span class="highlight">Future</span></h1>
+            <p class="hero-subtitle">Pioneering the intersection of aerospace machinery, intelligent software systems, and advanced scientific research.</p>
+            <div class="hero-cta">
+                <a href="#divisions" class="btn-primary">Explore Our Divisions</a>
+                <a href="#contact" class="btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll Discover</span>
+            <div class="line"></div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container reveal">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="section-text">
+                At LabXIII Ltd, we solve the world's most complex technical challenges. From the deep vacuum of space to the intricacies of neural networks, our multidisciplinary team pushes the boundaries of known engineering. We exist at the bleeding edge, transforming theoretical physics and computational science into tangible, world-altering technologies.
+            </p>
+        </div>
+    </section>
+
+    <!-- Divisions Section (SIC Codes) -->
+    <section class="divisions" id="divisions">
+        <div class="container">
+            <h2 class="section-title reveal">Core Divisions</h2>
+            <div class="grid">
+                
+                <div class="card glass reveal">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">Aerospace & Machinery</h3>
+                    <p class="card-desc">Advanced development, manufacturing, and R&D for air and spacecraft. Designing the propulsion and structural systems of tomorrow.</p>
+                    <span class="tag">SIC 30300</span>
+                </div>
+
+                <div class="card glass reveal" style="transition-delay: 100ms;">
+                    <div class="card-icon">💻</div>
+                    <h3 class="card-title">Intelligent Software</h3>
+                    <p class="card-desc">Architecting robust business and domestic software ecosystems. From distributed ledgers to machine learning pipelines.</p>
+                    <span class="tag">SIC 62012</span>
+                </div>
+
+                <div class="card glass reveal" style="transition-delay: 200ms;">
+                    <div class="card-icon">🔬</div>
+                    <h3 class="card-title">Scientific Consulting</h3>
+                    <p class="card-desc">Elite engineering advisory and technical consulting. Solving intractable problems through applied mathematics and physics.</p>
+                    <span class="tag">SIC 71122</span>
+                </div>
+
+                <div class="card glass reveal" style="transition-delay: 300ms;">
+                    <div class="card-icon">⚗️</div>
+                    <h3 class="card-title">Experimental R&D</h3>
+                    <p class="card-desc">Pushing the boundaries of the natural sciences. Fundamental research paving the way for next-generation engineering applications.</p>
+                    <span class="tag">SIC 72190</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="leadership" id="leadership">
+        <div class="container reveal">
+            <h2 class="section-title">Leadership</h2>
+            <div class="profile-card glass">
+                <img src="logo.png" alt="Ali Ganji" class="profile-img">
+                <div class="profile-info">
+                    <h3 class="profile-name">Ali Ganji</h3>
+                    <p class="profile-role">Founder & Director</p>
+                    <p class="profile-bio">Driving the strategic vision and technical architecture at LabXIII. Specializing in advanced software, digital forensics, and hardware integration.</p>
+                    <a href="https://www.linkedin.com/in/ganjiali" target="_blank" rel="noopener noreferrer" class="link-btn">
+                        <svg viewBox="0 0 24 24" class="linkedin-icon"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        Connect on LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2>LabXIII</h2>
+                    <p>Engineering the Future</p>
+                </div>
+                <div class="footer-contact">
+                    <h4>Inquiries</h4>
+                    <a href="mailto:aliganji@labxiii.org" class="email-link">aliganji@labxiii.org</a>
+                </div>
+                <div class="footer-legal">
+                    <h4>Corporate Identity</h4>
+                    <p>Registered in England and Wales</p>
+                    <p>Company No: <strong>16523432</strong></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 LabXIII Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
 </body>
 </html>
