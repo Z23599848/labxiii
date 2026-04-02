@@ -1,6 +1,6 @@
 /**
- * LabXIII - Advanced 3D Mesh Engine (Three.js)
- * Includes Dark/Light Mode support and Logo Inversion
+ * LabXIII - Universal 3D Engine (Three.js)
+ * Static 'Celestial Sphere' representing the universe. Zero movement.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,34 +9,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const sunIcon = document.getElementById('sun-icon');
     const moonIcon = document.getElementById('moon-icon');
-    
-    // Default to dark or saved preference
     const savedTheme = localStorage.getItem('theme') || 'dark';
+    
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateIcons(savedTheme);
 
     themeToggle.addEventListener('click', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
-        
         updateIcons(newTheme);
         syncEngineColors(newTheme);
     });
 
     function updateIcons(theme) {
         if (theme === 'dark') {
-            sunIcon.style.display = 'block';
-            moonIcon.style.display = 'none';
+            sunIcon.style.display = 'block'; moonIcon.style.display = 'none';
         } else {
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'block';
+            sunIcon.style.display = 'none'; moonIcon.style.display = 'block';
         }
     }
 
-    // --- 1. Three.js: The Mesh Object ---
+    // --- 1. Three.js: The Universal Sphere ---
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -46,60 +41,56 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // Geometry: Torus Knot
-    const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-    const wireframe = new THREE.WireframeGeometry(geometry);
-    
-    // Initial Material Color based on theme
-    const meshColor = savedTheme === 'dark' ? 0xffffff : 0x000000;
-    const material = new THREE.LineBasicMaterial({
-        color: meshColor,
+    // Initial Color
+    const activeColor = savedTheme === 'dark' ? 0xffffff : 0x000000;
+
+    // layer 1: The Celestial Grid (Architecture of the Universe)
+    const gridGeometry = new THREE.SphereGeometry(12, 32, 24);
+    const gridWireframe = new THREE.WireframeGeometry(gridGeometry);
+    const gridMaterial = new THREE.LineBasicMaterial({
+        color: activeColor,
         transparent: true,
-        opacity: 0.25,
-        linewidth: 1
+        opacity: 0.15
     });
+    const gridMesh = new THREE.LineSegments(gridWireframe, gridMaterial);
+    scene.add(gridMesh);
 
-    const mesh = new THREE.LineSegments(wireframe, material);
-    scene.add(mesh);
-
-    camera.position.z = 30;
-
-    // Interaction State
-    let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
-
-    window.addEventListener('mousemove', (e) => {
-        targetX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-        targetY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+    // layer 2: The Star Field (Matter in the Universe)
+    const pointsCount = 4000;
+    const pointsGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(pointsCount * 3);
+    for (let i = 0; i < pointsCount * 3; i++) {
+        positions[i] = (Math.random() - 0.5) * 50;
+    }
+    pointsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const pointsMaterial = new THREE.PointsMaterial({
+        color: activeColor,
+        size: 0.1,
+        transparent: true,
+        opacity: 0.4
     });
+    const starField = new THREE.Points(pointsGeometry, pointsMaterial);
+    scene.add(starField);
+
+    camera.position.z = 25;
+
+    // Static rendering, no movement
+    function renderStatic() {
+        renderer.render(scene, camera);
+    }
+    renderStatic();
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderStatic();
     });
 
-    // 3D Animation Loop
-    function animate3D() {
-        requestAnimationFrame(animate3D);
-        mouseX += (targetX - mouseX) * 0.02;
-        mouseY += (targetY - mouseY) * 0.02;
-        mesh.rotation.y += 0.0005;
-        mesh.rotation.z += 0.0002;
-        mesh.rotation.x = mouseY * 0.2;
-        mesh.rotation.y += mouseX * 0.05;
-        const time = Date.now() * 0.0005;
-        mesh.scale.setScalar(1 + Math.sin(time) * 0.03);
-        renderer.render(scene, camera);
-    }
-    animate3D();
-
-    // --- 2. 2D Particle Grid Overlay ---
+    // --- 2. 2D Particle Overlay (Secondary Texture) ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, particles = [];
-    const particleCount = 100;
-    const connectionDistance = 180;
-    let lineColor = savedTheme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(0, 0, 0, ';
     
     function resize2D() {
         width = canvas.width = window.innerWidth;
@@ -110,78 +101,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     class Particle {
         constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.3;
-            this.vy = (Math.random() - 0.5) * 0.3;
-            this.size = Math.random() * 1.5;
-        }
-        update() {
-            this.x += this.vx; this.y += this.vy;
-            if (this.x > width) this.x = 0; if (this.x < 0) this.x = width;
-            if (this.y > height) this.y = 0; if (this.y < 0) this.y = height;
+            this.x = Math.random() * width; this.y = Math.random() * height;
+            this.size = Math.random() * 1.2;
         }
         draw() {
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = savedTheme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
             ctx.fill();
         }
     }
 
     function init2D() {
         particles = [];
-        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+        for (let i = 0; i < 150; i++) particles.push(new Particle());
     }
 
-    function animate2D() {
+    function render2D() {
         ctx.clearRect(0, 0, width, height);
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
-            for (let j = i + 1; j < particles.length; j++) {
-                let dx = particles[i].x - particles[j].x;
-                let dy = particles[i].y - particles[j].y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < connectionDistance) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = `${lineColor}${0.1 * (1 - dist / connectionDistance)})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(animate2D);
+        particles.forEach(p => p.draw());
     }
     init2D();
-    animate2D();
+    render2D();
 
     // --- 3. Sync Logic ---
     function syncEngineColors(theme) {
-        // Update Three.js Mesh
         const color = theme === 'dark' ? 0xffffff : 0x000000;
-        mesh.material.color.setHex(color);
-        
-        // Update 2D Canvas Variables
-        lineColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(0, 0, 0, ';
-        
-        // Particles will pick up the color on their next draw cycle
-        particles.forEach(p => {
-            p.draw = function() {
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-                ctx.fill();
-            }
-        });
+        gridMaterial.color.setHex(color);
+        pointsMaterial.color.setHex(color);
+        renderStatic();
+        render2D();
     }
 
-    // --- 4. UI scroll logic ---
+    // --- 4. Scroll reveals ---
     const reveals = document.querySelectorAll('.reveal');
-    const callback = (entries) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-    }
-    const observer = new IntersectionObserver(callback, { threshold: 0.1 });
+    }, { threshold: 0.1 });
     reveals.forEach(r => observer.observe(r));
 
 });

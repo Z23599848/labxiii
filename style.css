@@ -267,7 +267,7 @@ a {
     font-weight: 800;
 }
 .hero-title .highlight {
-    background: linear-gradient(90deg, #fff, var(--accent-solid));
+    background: linear-gradient(90deg, var(--text-main), var(--accent-solid));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -360,9 +360,47 @@ section {
     box-shadow: 0 0 15px var(--accent-glow);
 }
 .card-icon {
-    font-size: 2.5rem;
     margin-bottom: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.geo-icon {
+    border: 2px solid var(--accent-solid);
+    position: relative;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.geo-icon.triangle {
+    width: 0; height: 0;
+    border-left: 17px solid transparent;
+    border-right: 17px solid transparent;
+    border-bottom: 30px solid var(--accent-solid);
+    background: transparent;
+    border-top: none;
+    border-bottom-color: var(--accent-solid);
+    box-shadow: none;
+}
+
+.geo-icon.square {
+    width: 30px; height: 30px;
+}
+
+.geo-icon.hexagon {
+    width: 30px; height: 30px;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: var(--accent-solid);
+    border: none;
+}
+
+.geo-icon.diamond {
+    width: 30px; height: 30px;
+    transform: rotate(45deg);
+}
+
 .card-title {
     font-size: 1.4rem;
     margin-bottom: 16px;
@@ -375,7 +413,7 @@ section {
 .tag {
     display: inline-block;
     padding: 4px 10px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--border-glass);
     border-radius: 4px;
     font-size: 0.75rem;
     font-family: var(--font-heading);
