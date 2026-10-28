@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semantic Remote Control (SRC) — AI Demonstration Simulator</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg-dark: #05070c;
+      --card-bg: #090d16;
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --terminal-bg: #030508;
+      --bios-blue: #0000aa;
+      --bios-grey: #aaaaaa;
+      --bios-yellow: #ffff55;
+      --bios-white: #ffffff;
+      --accent-orange: #f97316;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Fixed Recording / Director Toolbar */
+    .director-bar {
+      background: rgba(10, 15, 26, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--panel-border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--panel-border);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.6; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 0.6; transform: scale(0.9); }
+    }
+
+    /* Main Stage */
+    .stage-container {
+      flex: 1;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 1720px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Split Screen Grid */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      flex: 1;
+      min-height: 640px;
+    }
+
+    /* Panel Card */
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .panel-header {
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--panel-border);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Left Panel: Agent Terminal */
+    .terminal-body {
+      background: var(--terminal-bg);
+      flex: 1;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-y: auto;
+      color: #94a3b8;
+    }
+
+    .log-entry {
+      margin-bottom: 12px;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .log-user {
+      color: #f1f5f9;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--accent-orange);
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 14px;
+    }
+    .log-thought {
+      color: #a5b4fc;
+      background: rgba(99, 102, 241, 0.06);
+      border-left: 3px solid #6366f1;
+      padding: 6px 12px;
+      border-radius: 0 4px 4px 0;
+      margin: 8px 0;
+    }
+    .log-tool {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.06);
+      border-left: 3px solid #38bdf8;
+      padding: 6px 12px;
+      border-radius: 0 4px 4px 0;
+      margin: 8px 0;
+    }
+    .log-result {
+      color: #34d399;
+      padding-left: 12px;
+      font-size: 11.5px;
+    }
+
+    /* Right Panel: Physical Monitor Feed */
+    .monitor-body {
+      background: #000;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* CRT scanline overlay effect */
+    .monitor-body::after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 10;
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    .monitor-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* BIOS Styles */
+    .bios-screen {
+      background-color: var(--bios-blue);
+      color: var(--bios-grey);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid var(--bios-grey);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+
+    .bios-topbar {
+      background: var(--bios-grey);
+      color: #000;
+      padding: 4px 8px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+
+    .bios-menu-bar {
+      display: flex;
+      gap: 20px;
+      padding: 6px 16px;
+      border-bottom: 2px solid var(--bios-grey);
+      color: var(--bios-white);
+    }
+    .bios-menu-item {
+      padding: 2px 8px;
+    }
+    .bios-menu-item.active {
+      background: var(--bios-grey);
+      color: #000;
+      font-weight: 700;
+    }
+
+    .bios-content-area {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 2fr 1.1fr;
+      border-bottom: 2px solid var(--bios-grey);
+    }
+
+    .bios-main-pane {
+      padding: 16px 20px;
+      border-right: 2px solid var(--bios-grey);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bios-help-pane {
+      padding: 16px;
+      color: var(--bios-white);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .bios-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 4px;
+    }
+    .bios-row.highlight {
+      background: var(--bios-grey);
+      color: #000;
+      font-weight: 700;
+    }
+
+    .bios-footer {
+      padding: 6px 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--bios-white);
+    }
+
+    /* Terminal Boot Screen */
+    .boot-screen {
+      background: #000;
+      color: #cbd5e1;
+      height: 100%;
+      padding: 14px;
+      font-size: 12px;
+      line-height: 1.45;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Telemetry HUD Bar */
+    .telemetry-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      padding: 12px 20px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+    }
+
+    .telemetry-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .telemetry-label {
+      color: #64748b;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .telemetry-value {
+      color: #f8fafc;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Control buttons */
+    .btn-ctrl {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--panel-border);
+      color: #fff;
+      padding: 7px 16px;
+      border-radius: 9999px;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn-ctrl:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .btn-ctrl.primary {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+    }
+    .btn-ctrl.primary:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ DIRECTOR RECORDING TOOLBAR ═══════════════ -->
+  <header class="director-bar">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div class="brand-pill">
+        <span class="pulse-dot"></span>
+        <span>SRC // HARDWARE AI ORCHESTRATION</span>
+      </div>
+      <span style="font-size:12.5px; color:#64748b;">|</span>
+      <span style="font-size:12px; color:#cbd5e1; font-family:'JetBrains Mono',monospace;">
+        MISSION: Sub-OS Boot Failure &amp; Virtual Media Recovery
+      </span>
+    </div>
+
+    <!-- Interactive Simulation Controls -->
+    <div style="display:flex; align-items:center; gap:10px;">
+      <button id="btn-play" class="btn-ctrl primary" onclick="togglePlay()">
+        <span id="play-icon">▶</span>
+        <span id="play-text">Start Demo</span>
+      </button>
+      <button class="btn-ctrl" onclick="resetDemo()">↺ Reset</button>
+      <button class="btn-ctrl" onclick="toggleAudio()">
+        <span id="audio-icon">🔊</span> Audio: <span id="audio-text">ON</span>
+      </button>
+      <button class="btn-ctrl" onclick="toggleFullscreen()">⛶ Fullscreen (Record Mode)</button>
+    </div>
+  </header>
+
+  <!-- ═══════════════ MAIN SIMULATION STAGE ═══════════════ -->
+  <main class="stage-container">
+
+    <div class="split-grid">
+
+      <!-- ─── LEFT: AI AGENT OPERATOR INTERFACE ─── -->
+      <div class="panel">
+        <div class="panel-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+            <span style="color:#f8fafc; font-weight:600;">COGNITIVE AGENT CONSOLE</span>
+          </div>
+          <span style="color:#38bdf8;">PROTOCOL: stdio / JSON-RPC 2.0</span>
+        </div>
+
+        <div id="terminal-feed" class="terminal-body">
+          <div class="log-entry log-user">
+            <span style="color:#f97316; font-weight:700;">USER GOAL:</span><br>
+            "Target machine is unresponsive over SSH and fails on boot. Inspect console via physical video capture, access BIOS setup, and boot from virtual rescue media."
+          </div>
+          <div id="dynamic-agent-logs">
+            <!-- Dynamic steps appended by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── RIGHT: PHYSICAL HARDWARE MONITOR (HDMI INGESTION) ─── -->
+      <div class="panel">
+        <div class="panel-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="pulse-dot"></span>
+            <span style="color:#f8fafc; font-weight:600;">PHYSICAL HDMI VIDEO FEED</span>
+          </div>
+          <div style="display:flex; gap:12px; color:#94a3b8; font-size:11px;">
+            <span>1920x1080 @ 60 FPS</span>
+            <span>CSI-2 INGESTION</span>
+          </div>
+        </div>
+
+        <div class="monitor-body">
+          <div id="monitor-content" class="monitor-screen">
+            <!-- Screen state dynamically toggled -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── BOTTOM: REAL-TIME TELEMETRY HUD ─── -->
+    <div class="telemetry-bar">
+      <div class="telemetry-item">
+        <span class="telemetry-label">Ingestion Latency</span>
+        <span class="telemetry-value" id="hud-latency">
+          <span style="color:#10b981;">●</span> 143 ms <span style="font-size:10px; color:#64748b;">(P95: 218ms)</span>
+        </span>
+      </div>
+
+      <div class="telemetry-item">
+        <span class="telemetry-label">Bridge Proxy Overhead</span>
+        <span class="telemetry-value">
+          <span style="color:#38bdf8;">●</span> 7 ms <span style="font-size:10px; color:#64748b;">(timing-safe)</span>
+        </span>
+      </div>
+
+      <div class="telemetry-item">
+        <span class="telemetry-label">Sliding Rate Limiter</span>
+        <span class="telemetry-value" id="hud-rate">
+          <span style="color:#a78bfa;">●</span> <span id="rate-counter">14</span> / 60 RPM
+        </span>
+      </div>
+
+      <div class="telemetry-item">
+        <span class="telemetry-label">Hardware Actuator</span>
+        <span class="telemetry-value" id="hud-actuator">
+          <span style="color:#f59e0b;">●</span> USB OTG HID <span style="font-size:10px; color:#64748b;">(No host drivers)</span>
+        </span>
+      </div>
+
+      <div class="telemetry-item">
+        <span class="telemetry-label">Safety Gatekeeper</span>
+        <span class="telemetry-value">
+          <span style="color:#10b981;">●</span> Power Latch LOCKED
+        </span>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // ── AUDIO EFFECTS ENGINE (Web Audio API) ───────────────────────────
+    let audioEnabled = true;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playKeyClick() {
+      if (!audioEnabled || audioCtx.state !== 'running') return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(600 + Math.random() * 200, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.06);
+    }
+
+    function playSuccessChime() {
+      if (!audioEnabled || audioCtx.state !== 'running') return;
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.12);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime + i * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.12 + 0.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + i * 0.12);
+        osc.stop(audioCtx.currentTime + i * 0.12 + 0.45);
+      });
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      document.getElementById('audio-text').textContent = audioEnabled ? 'ON' : 'OFF';
+      document.getElementById('audio-icon').textContent = audioEnabled ? '🔊' : '🔇';
+      if (audioEnabled && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // ── SIMULATION TIMELINE & STATE ENGINE ─────────────────────────────
+    let isPlaying = false;
+    let currentStep = 0;
+    let timer = null;
+
+    const monitorEl = document.getElementById('monitor-content');
+    const logsEl = document.getElementById('dynamic-agent-logs');
+    const termEl = document.getElementById('terminal-feed');
+    const rateEl = document.getElementById('rate-counter');
+
+    // Visual templates for the right-hand monitor
+    const SCREENS = {
+      // 1. Initial Dead/Error Screen
+      BOOT_ERROR: `
+        <div class="boot-screen" style="justify-content:center; align-items:center; text-align:center;">
+          <div style="color:#ef4444; font-size:18px; font-weight:700; margin-bottom:12px;">
+            *** SYSTEM BOOT FAILURE ***
+          </div>
+          <div style="color:#94a3b8; max-width:540px; margin-bottom:20px;">
+            Reboot and Select proper Boot device<br>
+            or Insert Boot Media in selected Boot device and press a key...
+          </div>
+          <div style="font-size:11px; color:#475569;">
+            Host NIC: Carrier Lost • Operating System: Unreachable • Console: Locked
+          </div>
+        </div>
+      `,
+
+      // 2. Cold Reboot / AMI Post Splash
+      AMI_POST: `
+        <div class="boot-screen">
+          <div style="font-size:18px; font-weight:700; color:#fff; margin-bottom:8px;">
+            American Megatrends (AMI)
+          </div>
+          <div>BIOS Date: 04/18/2026 14:22:10 Ver: 2.20.1275</div>
+          <div>CPU: x86_64 Quad-Core Processor @ 3.40GHz</div>
+          <div>Memory: 16384 MB DDR4 RAM OK</div>
+          <div style="margin-top:16px; color:#f59e0b;">Initializing USB Controllers .. Done.</div>
+          <div style="color:#38bdf8;">CSI-2 Frame Ingestion: 1080p60 Active</div>
+          <div style="margin-top:auto; color:#ffff55; font-weight:700;">
+            Press &lt;DEL&gt; or &lt;F2&gt; to enter Setup, &lt;F11&gt; to enter Boot Menu
+          </div>
+        </div>
+      `,
+
+      // 3. AMI BIOS Main Screen
+      BIOS_MAIN: `
+        <div class="bios-screen">
+          <div class="bios-topbar">
+            <span>Aptio Setup Utility - American Megatrends, Inc.</span>
+            <span>Security: Normal</span>
+          </div>
+          <div class="bios-menu-bar">
+            <span class="bios-menu-item active">Main</span>
+            <span class="bios-menu-item">Advanced</span>
+            <span class="bios-menu-item">Chipset</span>
+            <span class="bios-menu-item">Boot</span>
+            <span class="bios-menu-item">Security</span>
+            <span class="bios-menu-item">Save &amp; Exit</span>
+          </div>
+          <div class="bios-content-area">
+            <div class="bios-main-pane">
+              <div class="bios-row highlight"><span>BIOS Version</span><span>2.20.1275</span></div>
+              <div class="bios-row"><span>Processor Type</span><span>x86-64 Architecture</span></div>
+              <div class="bios-row"><span>System Date</span><span>[Wed 10/28/2026]</span></div>
+              <div class="bios-row"><span>System Time</span><span>[23:25:04]</span></div>
+              <div class="bios-row"><span>Access Level</span><span>Administrator</span></div>
+            </div>
+            <div class="bios-help-pane">
+              <p>Set the Date. Use Tab to switch between Date elements.</p>
+              <br>
+              <p>Default Ranges:<br>Year: 2005-2099<br>Months: 1-12<br>Days: dependent</p>
+            </div>
+          </div>
+          <div class="bios-footer">
+            <span>&larr;&rarr;: Select Screen | &uarr;&darr;: Select Item | Enter: Select | F10: Save &amp; Exit</span>
+          </div>
+        </div>
+      `,
+
+      // 4. AMI BIOS Boot Tab (Moving cursor to Virtual Media)
+      BIOS_BOOT: `
+        <div class="bios-screen">
+          <div class="bios-topbar">
+            <span>Aptio Setup Utility - American Megatrends, Inc.</span>
+            <span>Security: Normal</span>
+          </div>
+          <div class="bios-menu-bar">
+            <span class="bios-menu-item">Main</span>
+            <span class="bios-menu-item">Advanced</span>
+            <span class="bios-menu-item">Chipset</span>
+            <span class="bios-menu-item active">Boot</span>
+            <span class="bios-menu-item">Security</span>
+            <span class="bios-menu-item">Save &amp; Exit</span>
+          </div>
+          <div class="bios-content-area">
+            <div class="bios-main-pane">
+              <div class="bios-row"><span>Boot Configuration</span><span></span></div>
+              <div class="bios-row"><span>Fast Boot</span><span>[Disabled]</span></div>
+              <div class="bios-row"><span>CSM Support</span><span>[Enabled]</span></div>
+              <div style="margin:6px 0; border-bottom:1px dashed var(--bios-grey);"></div>
+              <div class="bios-row highlight">
+                <span>Boot Option #1</span>
+                <span style="color:#000;">[PiKVM Virtual MSD Drive]</span>
+              </div>
+              <div class="bios-row"><span>Boot Option #2</span><span>[Corrupted SATA SSD]</span></div>
+              <div class="bios-row"><span>Boot Option #3</span><span>[UEFI Network Device]</span></div>
+            </div>
+            <div class="bios-help-pane">
+              <p>Sets the system boot order priority.</p>
+              <br>
+              <p style="color:var(--bios-yellow);">* PiKVM USB Virtual Media detected as Emulated Removable Drive.</p>
+            </div>
+          </div>
+          <div class="bios-footer">
+            <span>&larr;&rarr;: Select Screen | &uarr;&darr;: Select Item | Enter: Select | F10: Save &amp; Exit</span>
+          </div>
+        </div>
+      `,
+
+      // 5. Linux Rescue OS Booting
+      RESCUE_BOOTING: `
+        <div class="boot-screen" style="color:#34d399;">
+          <div>[    0.000000] Linux version 6.6.21-rescue (labxiii@build) (gcc 13.2) #1 SMP</div>
+          <div>[    0.142019] Command line: BOOT_IMAGE=/vmlinuz-rescue root=/dev/ram0 rw console=tty0</div>
+          <div>[    0.512419] USB HID Emulation verified: LabXIII Virtual Keyboard/Mouse attached.</div>
+          <div>[    1.214002] Mount virtual recovery media: /mnt/iso OK.</div>
+          <div>[    2.104918] Starting Network Triage Daemon ... <span style="color:#fff;">[ OK ]</span></div>
+          <div>[    2.841920] Rebuilding EFI boot partition table ... <span style="color:#fff;">[ OK ]</span></div>
+          <div style="margin-top:20px; color:#fff; font-size:14px; font-weight:700;">
+            =====================================================<br>
+            LABXIII RESCUE ENVIRONMENT READY • HOST RECOVERED<br>
+            =====================================================
+          </div>
+          <div style="margin-top:10px; color:#38bdf8;">
+            root@target-recovery:~# _
+          </div>
+        </div>
+      `
+    };
+
+    // Timeline Steps
+    const SCRIPT = [
+      {
+        delay: 800,
+        screen: SCREENS.BOOT_ERROR,
+        rate: 15,
+        thought: "Target machine visual stream shows 'SYSTEM BOOT FAILURE'. No active OS. Calling pikvm_capture_snapshot to inspect HDMI frame.",
+        tool: 'pikvm_capture_snapshot()',
+        result: 'Frame captured (1080p JPEG, 142ms). Raw console state confirmed.'
+      },
+      {
+        delay: 2400,
+        rate: 18,
+        thought: "Running OCR extraction on frame to locate setup key prompts.",
+        tool: 'pikvm_ocr_screen()',
+        result: '[OCR Output]: "Reboot and Select proper Boot device ... Press DEL to enter Setup"'
+      },
+      {
+        delay: 3000,
+        rate: 22,
+        action: () => playKeyClick(),
+        thought: "Triggering cold reset and queuing <Delete> key sequences via USB HID.",
+        tool: 'pikvm_send_key({ key: "Delete", duration_ms: 100 })',
+        result: 'HTTP 200 OK (Proxy overhead: 6ms). Key event dispatched to USB bus.'
+      },
+      {
+        delay: 2200,
+        screen: SCREENS.AMI_POST,
+        rate: 24,
+        thought: "POST screen detected. Repeatedly asserting <Delete> to intercept firmware setup window.",
+        tool: 'pikvm_send_key({ key: "Delete" })',
+        result: 'Keystroke injected. Hardware entering Aptio Setup Utility.'
+      },
+      {
+        delay: 2600,
+        screen: SCREENS.BIOS_MAIN,
+        rate: 28,
+        thought: "BIOS setup accessed. Current tab: 'Main'. Need to navigate right 3 times to access 'Boot' tab.",
+        tool: 'pikvm_send_key({ key: "ArrowRight", count: 3 })',
+        action: () => { playKeyClick(); setTimeout(playKeyClick, 150); setTimeout(playKeyClick, 300); },
+        result: 'Cursor shifted to Boot priority configuration pane.'
+      },
+      {
+        delay: 2800,
+        screen: SCREENS.BIOS_BOOT,
+        rate: 32,
+        thought: "Locating PiKVM Virtual MSD Drive. Adjusting Boot Option #1 priority to virtual rescue ISO.",
+        tool: 'pikvm_send_key({ key: "Enter" })',
+        action: () => playKeyClick(),
+        result: 'Option selected: [PiKVM Virtual MSD Drive]. Saving CMOS configuration.'
+      },
+      {
+        delay: 2400,
+        rate: 35,
+        thought: "Sending <F10> (Save & Exit) and confirming reboot prompt.",
+        tool: 'pikvm_send_key({ key: "F10" })',
+        action: () => { playKeyClick(); setTimeout(playKeyClick, 200); },
+        result: 'CMOS configuration written. System warm reboot initiated.'
+      },
+      {
+        delay: 3200,
+        screen: SCREENS.RESCUE_BOOTING,
+        rate: 36,
+        action: () => playSuccessChime(),
+        thought: "KERNEL RECOVERY VERIFIED. Linux rescue kernel loaded successfully via virtual media. Target host restored to operational state.",
+        tool: 'pikvm_supervisor_assess_machine()',
+        result: 'STATUS: RECOVERED. Mission duration: 24.8s. Audit log entry: #SRC-AUDIT-99214.'
+      }
+    ];
+
+    function executeStep() {
+      if (!isPlaying || currentStep >= SCRIPT.length) {
+        if (currentStep >= SCRIPT.length) {
+          pauseDemo();
+          const doneMsg = document.createElement('div');
+          doneMsg.className = 'log-entry';
+          doneMsg.style.cssText = 'color:#10b981; font-weight:700; border-top:1px solid #1e293b; padding-top:12px; margin-top:12px;';
+          doneMsg.innerHTML = '✔ MISSION ACCOMPLISHED: Target machine autonomously recovered at sub-OS hardware layer.';
+          logsEl.appendChild(doneMsg);
+          termEl.scrollTop = termEl.scrollHeight;
+        }
+        return;
+      }
+
+      const step = SCRIPT[currentStep];
+
+      // Update Screen
+      if (step.screen) {
+        monitorEl.innerHTML = step.screen;
+      }
+
+      // Update Telemetry
+      if (step.rate) {
+        rateEl.textContent = step.rate;
+      }
+
+      // Play Sound
+      if (step.action) {
+        step.action();
+      }
+
+      // Append Terminal Logs
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.innerHTML = `
+        <div class="log-thought"><strong>AI REASONING:</strong> ${step.thought}</div>
+        <div class="log-tool"><strong>&gt; MCP CALL:</strong> <code>${step.tool}</code></div>
+        <div class="log-result">&rarr; ${step.result}</div>
+      `;
+      logsEl.appendChild(entry);
+      termEl.scrollTop = termEl.scrollHeight;
+
+      currentStep++;
+      timer = setTimeout(executeStep, step.delay);
+    }
+
+    function togglePlay() {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      if (isPlaying) {
+        pauseDemo();
+      } else {
+        startDemo();
+      }
+    }
+
+    function startDemo() {
+      isPlaying = true;
+      document.getElementById('play-icon').textContent = '⏸';
+      document.getElementById('play-text').textContent = 'Pause';
+      executeStep();
+    }
+
+    function pauseDemo() {
+      isPlaying = false;
+      clearTimeout(timer);
+      document.getElementById('play-icon').textContent = '▶';
+      document.getElementById('play-text').textContent = 'Resume';
+    }
+
+    function resetDemo() {
+      pauseDemo();
+      currentStep = 0;
+      logsEl.innerHTML = '';
+      monitorEl.innerHTML = SCREENS.BOOT_ERROR;
+      rateEl.textContent = '14';
+      document.getElementById('play-icon').textContent = '▶';
+      document.getElementById('play-text').textContent = 'Start Demo';
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Initialize initial screen on load
+    window.addEventListener('DOMContentLoaded', () => {
+      monitorEl.innerHTML = SCREENS.BOOT_ERROR;
+    });
+  </script>
+</body>
+</html>
