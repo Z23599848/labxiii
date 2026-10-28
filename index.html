@@ -37,9 +37,11 @@
                 <span class="company-name">LabXIII</span>
             </div>
             <ul class="nav-links">
+                <li><a href="#src-product" class="nav-highlight">SRC Appliance <span class="nav-badge">NEW</span></a></li>
                 <li><a href="#about">Mission</a></li>
                 <li><a href="#divisions">Divisions</a></li>
                 <li><a href="#leadership">Leadership</a></li>
+                <li><a href="#preorder" class="btn-preorder-nav" onclick="openPreorderModal(event)">Pre-Order</a></li>
                 <li><a href="#contact" class="btn-primary-outline">Contact</a></li>
                 <li class="theme-switch">
                     <button id="theme-toggle" aria-label="Toggle Dark/Light Mode">
@@ -54,6 +56,10 @@
     <!-- Hero Section -->
     <header class="hero" id="home">
         <div class="hero-content reveal">
+            <div class="announcement-pill" onclick="document.getElementById('src-product').scrollIntoView({behavior:'smooth'})">
+                <span class="pill-dot"></span>
+                <span><strong>ANNOUNCING:</strong> Semantic Remote Control (SRC) Hardware • Batch 01 Priority Access &rarr;</span>
+            </div>
             <h1 class="hero-title">Engineering<br>the <span class="highlight">Future</span></h1>
             <p class="hero-subtitle">Pioneering the intersection of aerospace machinery, intelligent software systems, and advanced scientific research.</p>
             <div class="hero-cta">
@@ -66,6 +72,93 @@
             <div class="line"></div>
         </div>
     </header>
+
+    
+    <!-- Flagship Product Section: Semantic Remote Control (SRC) -->
+    <section class="product-section" id="src-product">
+        <div class="container">
+            <div class="product-badge-header reveal">
+                <span class="badge-tag">
+                    <span class="pill-dot"></span>
+                    FLAGSHIP HARDWARE APPLIANCE • VERSION 1.0
+                </span>
+            </div>
+            
+            <h2 class="section-title reveal" style="margin-bottom: 8px;">Semantic Remote Control (SRC)</h2>
+            <p class="section-text reveal" style="max-width: 860px;">
+                Out-of-band artificial intelligence orchestration appliance. Granting foundation models autonomous eyes, hands, and governance over air-gapped and sub-OS computer systems.
+            </p>
+
+            <div class="product-grid">
+                
+                <!-- Product Hardware Visual & Real-time Simulated Status -->
+                <div class="product-visual-wrap reveal">
+                    <img src="src-hardware.jpg" alt="Semantic Remote Control (SRC) Commercial Enclosed Hardware Appliance" class="product-main-img">
+                    <div class="product-status-overlay">
+                        <span class="pill-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span>
+                        PRODUCTION APPLIANCE
+                    </div>
+                    <div class="oled-simulation">
+                        <span>SRC v1.0 • AI LINK ACTIVE • 60 RPM</span>
+                        <div class="oled-indicators">
+                            <span class="led"><span class="led-dot led-pwr"></span> PWR</span>
+                            <span class="led"><span class="led-dot led-ai"></span> AI</span>
+                            <span class="led"><span class="led-dot led-kvm"></span> KVM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Specifications & Capabilities -->
+                <div class="product-content reveal">
+                    <div class="product-lead">
+                        True Sub-OS Autonomy: Zero Target Software Ingress
+                    </div>
+                    <p class="product-desc">
+                        Constructed within a precision-milled matte anodized aluminum unibody enclosure. The SRC appliance connects directly to the target machine's HDMI output and USB bus, allowing AI agents to operate independently of operating system health or network connectivity.
+                    </p>
+
+                    <!-- Feature Matrix -->
+                    <div class="feature-cards-grid">
+                        <div class="feature-card-mini">
+                            <div class="f-title">⚡ Sub-OS Cognition</div>
+                            <div class="f-desc">Autonomous BIOS/UEFI configuration, cold-boot disk imaging, and kernel panic recovery without OS dependency.</div>
+                        </div>
+                        <div class="feature-card-mini">
+                            <div class="f-title">🛡️ Air-Gap Defense</div>
+                            <div class="f-desc">Physical layer video ingestion &amp; USB HID emulation satisfy strict NIST SP 800-207 Zero Trust isolation.</div>
+                        </div>
+                        <div class="feature-card-mini">
+                            <div class="f-title">🧠 Model Context Protocol</div>
+                            <div class="f-desc">Native 13-tool MCP server exposed over stdio JSON-RPC for Claude Desktop, OpenHands, and custom agents.</div>
+                        </div>
+                        <div class="feature-card-mini">
+                            <div class="f-title">🔒 Hardware Safety Gates</div>
+                            <div class="f-desc">Cryptographic dual-token auth, sliding-window 60 RPM rate limiter, and physical ATX power interlocks.</div>
+                        </div>
+                    </div>
+
+                    <!-- Pre-order Box -->
+                    <div class="preorder-banner-box">
+                        <div class="preorder-meta-row">
+                            <div class="preorder-batch-badge">
+                                <span>📦 Batch 01 Priority Allocation</span>
+                                <span style="color:#94a3b8; font-weight:400;">(250 Units Global)</span>
+                            </div>
+                            <div class="preorder-terms">
+                                <strong>$0 Deposit</strong> • Delivery Q1 2027
+                            </div>
+                        </div>
+                        <div class="preorder-cta-row">
+                            <button class="btn-accent" onclick="openPreorderModal(event)">Pre-Order Now (Reserve Allocation)</button>
+                            <a href="https://github.com/Z23599848/src" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding:10px 20px; font-size:0.85rem;">View GitHub Architecture</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- About Section -->
     <section class="about" id="about">
@@ -160,5 +253,95 @@
 
     <!-- Scripts -->
     <script src="app.js"></script>
+
+    <!-- Interactive Pre-Order Reservation Modal -->
+    <div id="preorder-modal" class="modal-backdrop">
+        <div class="modal-window">
+            <button class="modal-close-btn" onclick="closePreorderModal()" aria-label="Close modal">&times;</button>
+            
+            <div id="preorder-form-container">
+                <div class="modal-header">
+                    <span class="badge-tag" style="margin-bottom:8px;">PRIORITY RESERVATION</span>
+                    <h3>Reserve Semantic Remote Control</h3>
+                    <p>Secure your Batch 01 allocation. Zero upfront deposit required today. Priority shipping begins Q1 2027.</p>
+                </div>
+
+                <form id="preorder-form" onsubmit="handlePreorderSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="po-name">Full Name *</label>
+                            <input type="text" id="po-name" class="form-control" placeholder="Dr. Jane Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="po-email">Corporate / Work Email *</label>
+                            <input type="email" id="po-email" class="form-control" placeholder="jane.doe@enterprise.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="po-org">Organization / Institution *</label>
+                            <input type="text" id="po-org" class="form-control" placeholder="Defense Lab / Datacenter Inc." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="po-units">Allocation Request *</label>
+                            <select id="po-units" class="form-control" required>
+                                <option value="1 Unit (Evaluation)">1 Unit — Evaluation &amp; Dev Kit</option>
+                                <option value="2-5 Units (Pilot)">2–5 Units — Pilot Deployment</option>
+                                <option value="10-25 Units (Datacenter)">10–25 Units — Datacenter Cluster</option>
+                                <option value="Enterprise Fleet (25+)">&gt; 25 Units — Enterprise Fleet Allocation</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="po-usecase">Primary Deployment Environment</label>
+                        <select id="po-usecase" class="form-control">
+                            <option value="Air-Gapped Infrastructure">Air-Gapped / Classified Computational Infrastructure</option>
+                            <option value="Datacenter Bare-Metal Automation">Datacenter Cold-Boot &amp; OS Provisioning</option>
+                            <option value="Autonomous AI Lab Automation">Autonomous Physical AI Lab Automation</option>
+                            <option value="Emergency Disaster Recovery">Emergency Kernel &amp; Remote Disaster Recovery</option>
+                            <option value="Academic & Research">Academic &amp; Systems Research</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="po-notes">Technical Requirements or Custom Firmware Needs</label>
+                        <textarea id="po-notes" class="form-control" rows="2" placeholder="e.g., custom MCP tools, IPMI/Redfish fallback, specific enclosure brackets..."></textarea>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn-accent" style="width:100%; padding:14px; font-size:1rem;">
+                            Confirm Priority Pre-Order Allocation &rarr;
+                        </button>
+                        <p class="form-notice">
+                            🔒 By reserving, your allocation is registered directly with LabXIII Ltd (Company No: 16523432). No payment is taken until product dispatch.
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Confirmation View (Shown upon submission) -->
+            <div id="preorder-confirmation" class="confirmation-card">
+                <div class="confirm-icon">✓</div>
+                <h3>Allocation Reserved!</h3>
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-top:6px;">
+                    Thank you. Your early-adopter reservation for the Semantic Remote Control (SRC) has been formally registered with LabXIII Engineering.
+                </p>
+                <div>
+                    <span class="confirm-res-id" id="confirmed-res-code">SRC-B1-84920</span>
+                </div>
+                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.6; max-width:440px; margin:0 auto 24px;">
+                    A dispatch record has been queued for <strong id="confirmed-email-display" style="color:var(--text-main);"></strong>. We will contact your organization prior to Q1 2027 delivery with shipping logistics and firmware provisioning credentials.
+                </p>
+                <div style="display:flex; justify-content:center; gap:12px;">
+                    <button class="btn-primary" onclick="closePreorderModal()">Close Window</button>
+                    <a id="email-confirmation-link" href="#" class="btn-secondary" style="font-size:0.85rem; padding:10px 20px;">Email Copy to Myself</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </body>
 </html>

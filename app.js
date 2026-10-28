@@ -141,3 +141,114 @@ document.addEventListener('DOMContentLoaded', () => {
     reveals.forEach(r => observer.observe(r));
 
 });
+
+
+// --- 5. Semantic Remote Control (SRC) Pre-Order Modal Logic ---
+window.openPreorderModal = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const modal = document.getElementById('preorder-modal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+window.closePreorderModal = function() {
+    const modal = document.getElementById('preorder-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+};
+
+// Close modal when clicking backdrop
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('preorder-modal');
+    if (modal && e.target === modal) {
+        closePreorderModal();
+    }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePreorderModal();
+});
+
+// Handle Form Submission
+window.handlePreorderSubmit = function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('po-name').value.trim();
+    const email = document.getElementById('po-email').value.trim();
+    const org = document.getElementById('po-org').value.trim();
+    const units = document.getElementById('po-units').value;
+    const usecase = document.getElementById('po-usecase').value;
+    const notes = document.getElementById('po-notes').value.trim();
+
+    // Generate unique reservation ID
+    const randomSuffix = Math.floor(10000 + Math.random() * 90000);
+    const reservationCode = 'SRC-B1-' + randomSuffix;
+
+    const reservationData = {
+        code: reservationCode,
+        name,
+        email,
+        org,
+        units,
+        usecase,
+        notes,
+        timestamp: new Date().toISOString()
+    };
+
+    // Save to localStorage for returning session
+    try {
+        localStorage.setItem('labxiii_src_reservation', JSON.stringify(reservationData));
+    } catch(err) {
+        console.warn('Storage error:', err);
+    }
+
+    // Prepare mailto link for direct record keeping
+    const subject = encodeURIComponent('LabXIII SRC Pre-Order Reservation [' + reservationCode + '] - ' + org);
+    const body = encodeURIComponent(
+        'RESERVATION DETAILS\n' +
+        '------------------------------------\n' +
+        'Reservation Code: ' + reservationCode + '\n' +
+        'Name: ' + name + '\n' +
+        'Email: ' + email + '\n' +
+        'Organization: ' + org + '\n' +
+        'Units: ' + units + '\n' +
+        'Deployment Environment: ' + usecase + '\n' +
+        'Notes: ' + notes + '\n' +
+        'Timestamp: ' + new Date().toLocaleString() + '\n' +
+        '------------------------------------\n' +
+        'LabXIII Ltd • Company No: 16523432\n'
+    );
+    const mailtoUrl = 'mailto:aliganji@labxiii.org?subject=' + subject + '&body=' + body;
+
+    // Show Confirmation View
+    document.getElementById('preorder-form-container').style.display = 'none';
+    const confirmView = document.getElementById('preorder-confirmation');
+    confirmView.style.display = 'block';
+    
+    document.getElementById('confirmed-res-code').textContent = reservationCode;
+    document.getElementById('confirmed-email-display').textContent = email;
+    
+    const emailBtn = document.getElementById('email-confirmation-link');
+    if (emailBtn) {
+        emailBtn.href = mailtoUrl;
+    }
+};
+
+// Check if visitor has prior reservation
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        const existing = localStorage.getItem('labxiii_src_reservation');
+        if (existing) {
+            const data = JSON.parse(existing);
+            const bannerBadges = document.querySelectorAll('.preorder-batch-badge');
+            bannerBadges.forEach(b => {
+                b.innerHTML = '<span>✅ You have reserved: <strong>' + data.code + '</strong></span>';
+            });
+        }
+    } catch(err){}
+});

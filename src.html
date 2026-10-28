@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Remote Control (SRC) | LabXIII Hardware</title>
+    <meta name="description" content="Semantic Remote Control (SRC) by LabXIII Ltd. Hardware-level AI orchestration appliance for air-gapped systems and sub-OS firmware environments.">
+    <meta name="author" content="LabXIII Ltd">
+    <meta property="og:title" content="Semantic Remote Control (SRC) — Hardware AI Orchestration">
+    <meta property="og:description" content="Grant foundation models physical eyes, hands, and governance over air-gapped and sub-OS systems.">
+    <meta property="og:url" content="https://labxiii.org/src.html">
+    <meta property="og:type" content="product">
+    <meta property="og:image" content="https://labxiii.org/src-hardware.jpg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-hero {
+            padding: 160px 0 80px;
+            text-align: center;
+        }
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(249, 115, 22, 0.12);
+            border: 1px solid rgba(249, 115, 22, 0.35);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-family: var(--font-heading);
+            color: var(--accent-orange);
+            margin-bottom: 20px;
+        }
+        .main-headline {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        .lead-text {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 36px;
+            line-height: 1.6;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            font-size: 0.95rem;
+        }
+        .tech-table th, .tech-table td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-glass);
+        }
+        .tech-table th {
+            color: var(--text-muted);
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tech-table td {
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" style="display:flex; align-items:center; gap:12px;">
+                    <img src="logo.png" alt="LabXIII Logo">
+                    <span class="company-name">LabXIII</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#src-product" class="nav-highlight">SRC Appliance <span class="nav-badge">V1.0</span></a></li>
+                <li><a href="#specs">Specifications</a></li>
+                <li><a href="#preorder" class="btn-preorder-nav" onclick="openPreorderModal(event)">Reserve Batch 01</a></li>
+                <li><a href="index.html#contact" class="btn-primary-outline">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <header class="page-hero">
+        <div class="container reveal">
+            <div class="hero-tag">
+                <span class="pill-dot"></span>
+                OFFICIAL PRODUCT SPECIFICATION &bull; COMMERCIAL APPLIANCE
+            </div>
+            <h1 class="main-headline">Semantic Remote Control</h1>
+            <p class="lead-text">
+                The world's first open Model Context Protocol (MCP) appliance delivering sub-OS visual cognition, USB HID actuation, and hardware-isolated governance for air-gapped computational assets.
+            </p>
+            <div class="hero-actions">
+                <button class="btn-accent" onclick="openPreorderModal(event)">Reserve Priority Pre-Order (Batch 01)</button>
+                <a href="https://github.com/Z23599848/src" target="_blank" rel="noopener noreferrer" class="btn-secondary">Open-Source Repository</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hardware Visual & Details -->
+    <section style="padding: 40px 0 100px;">
+        <div class="container">
+            <div class="product-grid" style="margin-top:0;">
+                
+                <div class="product-visual-wrap reveal">
+                    <img src="src-hardware.jpg" alt="SRC Commercial Enclosure Product Photograph" class="product-main-img" style="height:440px;">
+                    <div class="product-status-overlay">
+                        <span class="pill-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span>
+                        ANODIZED SPACE-GRAY CHASSIS
+                    </div>
+                    <div class="oled-simulation">
+                        <span>SRC v1.0 • AI LINK ACTIVE • 60 RPM</span>
+                        <div class="oled-indicators">
+                            <span class="led"><span class="led-dot led-pwr"></span> PWR</span>
+                            <span class="led"><span class="led-dot led-ai"></span> AI</span>
+                            <span class="led"><span class="led-dot led-kvm"></span> KVM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-content reveal">
+                    <h3>Enterprise Hardware Architecture</h3>
+                    <p class="product-lead">Zero Software Ingress &bull; Physical Bus Isolation</p>
+                    <p class="product-desc">
+                        Conventional automation tools fail when operating systems crash, storage corrupts, or networks are physically severed. The SRC appliance acts as a synthetic human operator sitting directly in front of the machine with a screen and keyboard.
+                    </p>
+
+                    <div class="feature-cards-grid">
+                        <div class="feature-card-mini">
+                            <div class="f-title">🖥️ 1080p60 Hardware Capture</div>
+                            <div class="f-desc">WaveShare HDMI-to-CSI2 hardware bridge with &lt;80ms frame ingestion latency.</div>
+                        </div>
+                        <div class="feature-card-mini">
+                            <div class="f-title">⌨️ Zero-Driver USB Emulation</div>
+                            <div class="f-desc">Hardware USB OTG HID stack natively recognized as keyboard &amp; mouse by any BIOS.</div>
+                        </div>
+                        <div class="feature-card-mini">
+                            <div class="f-title">📡 Out-of-Band Cellular Link</div>
+                            <div class="f-desc">Dedicated 4G/LTE connectivity ensures administrative reach without host network access.</div>
+                        </div>
+                        <div class="feature-card-mini">
+                            <div class="f-title">🔋 Dual UPS Battery Reserve</div>
+                            <div class="f-desc">Independent power buffer prevents controller brownout during target host power cycling.</div>
+                        </div>
+                    </div>
+
+                    <div class="preorder-banner-box">
+                        <div class="preorder-meta-row">
+                            <div class="preorder-batch-badge">
+                                <span>📦 Production Batch 01 Allocation</span>
+                            </div>
+                            <div class="preorder-terms">
+                                <strong>Zero Deposit Today</strong> &bull; Q1 2027
+                            </div>
+                        </div>
+                        <button class="btn-accent" onclick="openPreorderModal(event)" style="width:100%;">
+                            Reserve Your Commercial Unit &rarr;
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications Section -->
+    <section id="specs" style="padding: 80px 0; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border-glass);">
+        <div class="container reveal">
+            <h2 class="section-title">Technical Specifications</h2>
+            <div class="glass" style="padding: 24px; border-radius: 12px; overflow-x: auto;">
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Subsystem</th>
+                            <th>Specification</th>
+                            <th>Operational Benefit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Chassis &amp; Thermal</strong></td>
+                            <td>CNC-Milled 6061-T6 Anodized Aluminum (Space-Gray)</td>
+                            <td>Fanless passive convection, zero acoustic noise, rugged industrial durability</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Video Engine</strong></td>
+                            <td>HDMI 1.4 Ingestion via dedicated CSI-2 Hardware Bus</td>
+                            <td>1080p @ 60 FPS / 720p @ 60 FPS, hardware MJPEG compression (&lt;80ms capture latency)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Actuation Stack</strong></td>
+                            <td>Hardware USB OTG Type-C HID Emulation</td>
+                            <td>Full keycode coverage (BIOS navigation, UEFI boot selection, modifier combinations)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AI Protocol</strong></td>
+                            <td>Model Context Protocol (MCP) over stdio JSON-RPC</td>
+                            <td>Native plug-and-play compatibility with Claude Desktop, OpenHands, and Agent SDKs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Safety Architecture</strong></td>
+                            <td>Dual-Tier Hardened Bridge Proxy (timing-safe auth, 60 RPM limiter)</td>
+                            <td>Immune to prompt injection escalation; AI agent never receives root hardware credentials</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Emergency Link</strong></td>
+                            <td>Pimoroni Clipper LTE/4G HAT + Fallback pgrok cryptographic tunnel</td>
+                            <td>Out-of-band disaster reachability during total facility network outages</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Battery Protection</strong></td>
+                            <td>Waveshare UPS HAT with dynamic voltage monitoring</td>
+                            <td>Continuous controller uptime across host cold reboots and power resets</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Order Modal -->
+    <div id="preorder-modal" class="modal-backdrop">
+        <div class="modal-window">
+            <button class="modal-close-btn" onclick="closePreorderModal()" aria-label="Close modal">&times;</button>
+            
+            <div id="preorder-form-container">
+                <div class="modal-header">
+                    <span class="badge-tag" style="margin-bottom:8px;">PRIORITY RESERVATION</span>
+                    <h3>Reserve Semantic Remote Control</h3>
+                    <p>Secure your Batch 01 allocation. Zero upfront deposit required today. Priority shipping begins Q1 2027.</p>
+                </div>
+
+                <form id="preorder-form" onsubmit="handlePreorderSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="po-name">Full Name *</label>
+                            <input type="text" id="po-name" class="form-control" placeholder="Dr. Jane Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="po-email">Corporate / Work Email *</label>
+                            <input type="email" id="po-email" class="form-control" placeholder="jane.doe@enterprise.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="po-org">Organization / Institution *</label>
+                            <input type="text" id="po-org" class="form-control" placeholder="Defense Lab / Datacenter Inc." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="po-units">Allocation Request *</label>
+                            <select id="po-units" class="form-control" required>
+                                <option value="1 Unit (Evaluation)">1 Unit — Evaluation &amp; Dev Kit</option>
+                                <option value="2-5 Units (Pilot)">2–5 Units — Pilot Deployment</option>
+                                <option value="10-25 Units (Datacenter)">10–25 Units — Datacenter Cluster</option>
+                                <option value="Enterprise Fleet (25+)">&gt; 25 Units — Enterprise Fleet Allocation</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="po-usecase">Primary Deployment Environment</label>
+                        <select id="po-usecase" class="form-control">
+                            <option value="Air-Gapped Infrastructure">Air-Gapped / Classified Computational Infrastructure</option>
+                            <option value="Datacenter Bare-Metal Automation">Datacenter Cold-Boot &amp; OS Provisioning</option>
+                            <option value="Autonomous AI Lab Automation">Autonomous Physical AI Lab Automation</option>
+                            <option value="Emergency Disaster Recovery">Emergency Kernel &amp; Remote Disaster Recovery</option>
+                            <option value="Academic & Research">Academic &amp; Systems Research</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="po-notes">Technical Requirements or Custom Firmware Needs</label>
+                        <textarea id="po-notes" class="form-control" rows="2" placeholder="e.g., custom MCP tools, IPMI/Redfish fallback, specific enclosure brackets..."></textarea>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn-accent" style="width:100%; padding:14px; font-size:1rem;">
+                            Confirm Priority Pre-Order Allocation &rarr;
+                        </button>
+                        <p class="form-notice">
+                            🔒 By reserving, your allocation is registered directly with LabXIII Ltd (Company No: 16523432). No payment is taken until product dispatch.
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Confirmation View -->
+            <div id="preorder-confirmation" class="confirmation-card">
+                <div class="confirm-icon">✓</div>
+                <h3>Allocation Reserved!</h3>
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-top:6px;">
+                    Thank you. Your early-adopter reservation for the Semantic Remote Control (SRC) has been formally registered with LabXIII Engineering.
+                </p>
+                <div>
+                    <span class="confirm-res-id" id="confirmed-res-code">SRC-B1-84920</span>
+                </div>
+                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.6; max-width:440px; margin:0 auto 24px;">
+                    A dispatch record has been queued for <strong id="confirmed-email-display" style="color:var(--text-main);"></strong>. We will contact your organization prior to Q1 2027 delivery with shipping logistics and firmware provisioning credentials.
+                </p>
+                <div style="display:flex; justify-content:center; gap:12px;">
+                    <button class="btn-primary" onclick="closePreorderModal()">Close Window</button>
+                    <a id="email-confirmation-link" href="#" class="btn-secondary" style="font-size:0.85rem; padding:10px 20px;">Email Copy to Myself</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2>LabXIII</h2>
+                    <p>Engineering the Future &bull; Hardware Division</p>
+                </div>
+                <div class="footer-contact">
+                    <h4>Direct Inquiries</h4>
+                    <a href="mailto:aliganji@labxiii.org" class="email-link">aliganji@labxiii.org</a>
+                </div>
+                <div class="footer-legal">
+                    <h4>Corporate Identity</h4>
+                    <p>Registered in England and Wales</p>
+                    <p>Company No: <strong>16523432</strong></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 LabXIII Ltd. All rights reserved. Semantic Remote Control (SRC) is an engineered commercial technology of LabXIII Ltd.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
