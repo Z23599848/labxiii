@@ -78,13 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderStatic() {
         renderer.render(scene, camera);
     }
-    renderStatic();
+    // animate() handles rendering
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderStatic();
+        // animate() handles rendering
     });
 
     // --- 2. 2D Particle Overlay (Secondary Texture) ---
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const color = theme === 'dark' ? 0xffffff : 0x000000;
         gridMaterial.color.setHex(color);
         pointsMaterial.color.setHex(color);
-        renderStatic();
+        // animate() handles rendering
         render2D();
     }
 
