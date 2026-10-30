@@ -1,268 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LabXIII Ltd | Engineering the Future</title>
-    <meta name="description" content="LabXIII Ltd is a vanguard in aerospace manufacturing, intelligent software systems, and advanced scientific research.">
-    <meta name="author" content="Ali Ganji">
-    <meta property="og:title" content="LabXIII Ltd | Engineering the Future">
-    <meta property="og:description" content="Pioneering the intersection of aerospace, software, and science.">
-    <meta property="og:url" content="https://labxiii.org">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://labxiii.org/logo.png">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-
-
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="canonical" href="https://labxiii.org/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LabXIII — Intelligence meets the physical world</title>
+<meta name="description" content="Independent engineering and research by LabXIII. Explore Semantic Remote Control: supervised AI interaction with computers through hardware interfaces.">
+<meta property="og:title" content="LabXIII — Intelligence meets the physical world">
+<meta property="og:description" content="Independent engineering and research by LabXIII. Explore Semantic Remote Control: supervised AI interaction with computers through hardware interfaces.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://labxiii.org/">
+<meta property="og:image" content="https://labxiii.org/src-hardware.jpg">
+<link rel="canonical" href="https://labxiii.org/">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
 </head>
 <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-
-    <!-- 3D Background Container -->
-    <div id="canvas-container"></div>
-    <canvas id="bg-canvas"></canvas>
-
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar" aria-label="Main navigation">
-        <div class="nav-container">
-            <div class="logo">
-                <img src="logo.png" alt="LabXIII Logo">
-                <span class="company-name">LabXIII</span>
-            </div>
-            <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" hidden>Menu</button>
-            <ul class="nav-links" id="primary-navigation">
-                <li><a href="#src-product" class="nav-highlight">SRC Appliance <span class="nav-badge">NEW</span></a></li>
-                <li><a href="#about">Mission</a></li>
-                <li><a href="#divisions">Divisions</a></li>
-                <li><a href="#leadership">Leadership</a></li>
-                <li><a href="mailto:aliganji@labxiii.org" class="btn-preorder-nav" onclick="openPreorderModal(event)">Enquire about SRC</a></li>
-                <li><a href="#contact" class="btn-primary-outline">Contact</a></li>
-                <li class="theme-switch">
-                    <button id="theme-toggle" aria-label="Toggle Dark/Light Mode">
-                        <svg id="sun-icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06a.996.996 0 000 1.41c.39.39 1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06a.996.996 0 000 1.41c.39.39 1.03.39 1.41 0l1.06-1.06z"/></svg>
-                        <svg id="moon-icon" viewBox="0 0 24 24" style="display: none;"><path d="M12.12 2.01c-3.13 0-5.96 1.63-7.53 4.31a8 8 0 000 7.36 8 8 0 0013.79-4.3 8.01 8.01 0 01-6.26-7.37zM12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/></svg>
-                    </button>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <main id="main-content" tabindex="-1">
-
-    <!-- Hero Section -->
-    <header class="hero" id="home">
-        <div class="hero-content reveal">
-            <a class="announcement-pill" href="src.html">
-                <span class="pill-dot"></span>
-                <span><strong>ANNOUNCING:</strong> Semantic Remote Control (SRC) • Explore the project &rarr;</span>
-            </a>
-            <h1 class="hero-title">Engineering<br>the <span class="highlight">future.</span></h1>
-            <p class="hero-subtitle">Pioneering the intersection of aerospace machinery, intelligent software systems, and advanced scientific research.</p>
-            <div class="hero-cta">
-                <a href="src.html" class="btn-primary">Explore SRC <span aria-hidden="true">&nbsp;↗</span></a>
-                <a href="demo.html" class="btn-secondary">Try the interactive demo</a>
-                <a href="#contact" class="btn-secondary">Get in Touch</a>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <span>Scroll Discover</span>
-            <div class="line"></div>
-        </div>
-    </header>
-
-    
-    <!-- Flagship Product Section: Semantic Remote Control (SRC) -->
-    <section class="product-section" id="src-product">
-        <div class="container">
-            <div class="product-badge-header reveal">
-                <span class="badge-tag">
-                    <span class="pill-dot"></span>
-                    FLAGSHIP HARDWARE APPLIANCE • VERSION 1.0
-                </span>
-            </div>
-            
-            <h2 class="section-title reveal" style="margin-bottom: 8px;">Semantic Remote Control (SRC)</h2>
-            <p class="section-text reveal" style="max-width: 860px;">
-                Out-of-band artificial intelligence orchestration appliance. Granting foundation models autonomous eyes, hands, and governance over air-gapped and sub-OS computer systems.
-            </p>
-
-            <div class="product-grid">
-                
-                <!-- Product Hardware Visual & Real-time Simulated Status -->
-                <div class="product-visual-wrap reveal">
-                    <img src="src-hardware.jpg" alt="Semantic Remote Control (SRC) Commercial Enclosed Hardware Appliance" class="product-main-img">
-                    <div class="product-status-overlay">
-                        <span class="pill-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span>
-                        PRODUCTION APPLIANCE
-                    </div>
-                    <div class="oled-simulation">
-                        <span>SRC v1.0 • AI LINK ACTIVE • 60 RPM</span>
-                        <div class="oled-indicators">
-                            <span class="led"><span class="led-dot led-pwr"></span> PWR</span>
-                            <span class="led"><span class="led-dot led-ai"></span> AI</span>
-                            <span class="led"><span class="led-dot led-kvm"></span> KVM</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Specifications & Capabilities -->
-                <div class="product-content reveal">
-                    <div class="product-lead">
-                        True Sub-OS Autonomy: Zero Target Software Ingress
-                    </div>
-                    <p class="product-desc">
-                        The SRC appliance connects directly to the target machine's HDMI output and USB bus, allowing AI agents to operate independently of operating system health or network connectivity.
-                    </p>
-
-                    <!-- Feature Matrix -->
-                    <div class="feature-cards-grid">
-                        <div class="feature-card-mini">
-                            <div class="f-title">⚡ Sub-OS Cognition</div>
-                            <div class="f-desc">Autonomous BIOS/UEFI configuration, cold-boot disk imaging, and kernel panic recovery without OS dependency.</div>
-                        </div>
-                        <div class="feature-card-mini">
-                            <div class="f-title">🛡️ Air-Gap Defense</div>
-                            <div class="f-desc">Physical layer video ingestion &amp; USB HID emulation satisfy strict NIST SP 800-207 Zero Trust isolation.</div>
-                        </div>
-                        <div class="feature-card-mini">
-                            <div class="f-title">🧠 Model Context Protocol</div>
-                            <div class="f-desc">Native 13-tool MCP server exposed over stdio JSON-RPC for Claude Desktop, OpenHands, and custom agents.</div>
-                        </div>
-                        <div class="feature-card-mini">
-                            <div class="f-title">🔒 Hardware Safety Gates</div>
-                            <div class="f-desc">Cryptographic dual-token auth, sliding-window 60 RPM rate limiter, and physical ATX power interlocks.</div>
-                        </div>
-                    </div>
-
-                    <!-- Pre-order Box -->
-                    <div class="preorder-banner-box">
-                        <div class="preorder-meta-row">
-                            <div class="preorder-batch-badge">
-                                <span>SRC evaluation enquiries</span>
-                                <span style="color:#94a3b8; font-weight:400;">Discuss your requirements</span>
-                            </div>
-                            <div class="preorder-terms">
-                                Availability and timing confirmed by email
-                            </div>
-                        </div>
-                        <div class="preorder-cta-row">
-                            <button class="btn-accent" onclick="openPreorderModal(event)">Enquire about SRC</button>
-                            <a href="https://github.com/Z23599848/src" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding:10px 20px; font-size:0.85rem;">View GitHub Architecture</a>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container reveal">
-            <h2 class="section-title">Our Mission</h2>
-            <p class="section-text">
-                At LabXIII Ltd, we solve the world's most complex technical challenges. From the deep vacuum of space to the intricacies of neural networks, our multidisciplinary team pushes the boundaries of known engineering. We exist at the bleeding edge, transforming theoretical physics and computational science into tangible, world-altering technologies.
-            </p>
-        </div>
-    </section>
-
-    <!-- Divisions Section (SIC Codes) -->
-    <section class="divisions" id="divisions">
-        <div class="container">
-            <h2 class="section-title reveal">Core Divisions</h2>
-            <div class="grid">
-                
-                <div class="card glass reveal">
-                    <div class="card-icon geo-icon triangle"></div>
-                    <h3 class="card-title">Aerospace & Machinery</h3>
-                    <p class="card-desc">Advanced development, manufacturing, and R&D for air and spacecraft. Designing the propulsion and structural systems of tomorrow.</p>
-                    <span class="tag">SIC 30300</span>
-                </div>
-
-                <div class="card glass reveal" style="transition-delay: 100ms;">
-                    <div class="card-icon geo-icon square"></div>
-                    <h3 class="card-title">Intelligent Software</h3>
-                    <p class="card-desc">Architecting robust business and domestic software ecosystems. From distributed ledgers to machine learning pipelines.</p>
-                    <span class="tag">SIC 62012</span>
-                </div>
-
-                <div class="card glass reveal" style="transition-delay: 200ms;">
-                    <div class="card-icon geo-icon hexagon"></div>
-                    <h3 class="card-title">Scientific Consulting</h3>
-                    <p class="card-desc">Elite engineering advisory and technical consulting. Solving intractable problems through applied mathematics and physics.</p>
-                    <span class="tag">SIC 71122</span>
-                </div>
-
-                <div class="card glass reveal" style="transition-delay: 300ms;">
-                    <div class="card-icon geo-icon diamond"></div>
-                    <h3 class="card-title">Experimental R&D</h3>
-                    <p class="card-desc">Pushing the boundaries of the natural sciences. Fundamental research paving the way for next-generation engineering applications.</p>
-                    <span class="tag">SIC 72190</span>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Leadership Section -->
-    <section class="leadership" id="leadership">
-        <div class="container reveal">
-            <h2 class="section-title">Leadership</h2>
-            <div class="profile-card glass">
-                <img src="logo.png" alt="Ali Ganji" class="profile-img">
-                <div class="profile-info">
-                    <h3 class="profile-name">Ali Ganji</h3>
-                    <p class="profile-role">Founder & Director</p>
-                    <p class="profile-bio">Driving the strategic vision and technical architecture at LabXIII. Specializing in advanced software, digital forensics, and hardware integration.</p>
-                    <a href="https://www.linkedin.com/in/ganjiali" target="_blank" rel="noopener noreferrer" class="link-btn">
-                        <svg viewBox="0 0 24 24" class="linkedin-icon"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        Connect on LinkedIn
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    </main>
-    <!-- Footer / Contact -->
-    <footer class="footer" id="contact">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <h2>LabXIII</h2>
-                    <p>Engineering the Future</p>
-                </div>
-                <div class="footer-contact">
-                    <h4>Inquiries</h4>
-                    <a href="mailto:aliganji@labxiii.org" class="email-link">aliganji@labxiii.org</a>
-                </div>
-                <div class="footer-legal">
-                    <h4>Corporate Identity</h4>
-                    <p>Registered in England and Wales</p>
-                    <p>Company No: <strong>16523432</strong></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 LabXIII Ltd. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="app.js"></script>
-
-    <!-- Interactive Pre-Order Reservation Modal -->
-    <div id="preorder-modal" class="modal-backdrop">
+<a class="skip-link" href="#main-content">Skip to content</a><nav class="navbar" aria-label="Main navigation">
+<div class="nav-container">
+<a class="wordmark" href="index.html" aria-label="LabXIII home"><img src="logo.png" alt="" width="34" height="34"><span>LAB<span class="wordmark-numeral">XIII</span><span class="brand-dot">.</span></span></a>
+<button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation" hidden>Menu</button>
+<ul id="primary-navigation" class="nav-links">
+<li><a href="src.html">SRC project</a></li>
+<li><a href="index.html#research">Research</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a href="demo.html">Interactive demo ↗</a></li>
+<li><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a></li>
+<li><button id="theme-toggle" class="theme-toggle" aria-label="Switch colour theme">◐</button></li>
+</ul></div></nav>
+<main id="main-content" tabindex="-1">
+<header class="home-hero container">
+<div class="hero-overline"><span class="eyebrow"><span class="status-dot"></span> INDEPENDENT ENGINEERING &amp; RESEARCH</span><span class="serial">LONDON, UK / LAB NOTES 001</span></div>
+<h1>Intelligence.<br>Meet the <span class="serif-word">physical.</span></h1>
+<div class="hero-bottom"><p>We connect intelligent software with the machines it needs to understand and operate. Starting with a new way to control computers—through hardware.</p><div class="actions"><a href="src.html" class="btn-primary">Explore our first project <span aria-hidden="true">↗</span></a><a href="#about" class="text-link">Inside LabXIII <span aria-hidden="true">↓</span></a></div></div>
+</header>
+<section class="project-feature container" aria-labelledby="featured-title">
+<div class="feature-panel">
+<div class="feature-topline"><span class="eyebrow">PROJECT 001 / SRC</span><span class="status-chip">Development prototype</span></div>
+<div class="feature-layout"><div class="feature-copy"><h2 id="featured-title">A new point<br>of control.</h2><p>Semantic Remote Control gives software a view of a computer’s screen and a way to interact through keyboard and mouse input—even when an OS-level remote agent is unavailable.</p><a class="light-link" href="src.html">Meet Semantic Remote Control <span aria-hidden="true">↗</span></a></div>
+<figure class="hardware-figure"><img src="src-hardware.jpg" alt="Concept enclosure for the Semantic Remote Control appliance" width="1024" height="768" fetchpriority="high"><figcaption>ENCLOSURE CONCEPT · PRODUCT VISUALISATION</figcaption></figure></div>
+<div class="feature-specs"><div><span>01 / SEE</span><strong>PiKVM video capture</strong></div><div><span>02 / ACT</span><strong>USB keyboard &amp; mouse</strong></div><div><span>03 / CONNECT</span><strong>Local bridge + MCP</strong></div></div>
+</div></section>
+<section class="section container introduction" id="about">
+<div><p class="eyebrow">01 / THE IDEA</p><h2>Software can think.<br>Hardware makes<br>it <span class="muted">useful.</span></h2></div>
+<div class="editorial-copy"><p class="lead">Some of the most interesting engineering problems live between disciplines.</p><p>An AI agent may understand a task, but still need a reliable way to see a screen, press a key, or work with a machine that cannot run its usual tools. That gap is where our work begins.</p><p>LabXIII brings software, hardware integration, and experimental research into the same workflow: frame a problem, build a prototype, and test what it can actually do.</p><a href="https://github.com/Z23599848/src" class="text-link">Explore the work in the open ↗</a></div>
+</section>
+<section class="research-section" id="research"><div class="container section">
+<div class="section-heading"><div><p class="eyebrow">02 / RESEARCH DIRECTIONS</p><h2>One lab.<br>Connected disciplines.</h2></div><p>Our current focus is hardware-assisted computer control. These disciplines shape how we approach it—and the questions we want to explore next.</p></div>
+<div class="research-list">
+<article><span class="row-number">01</span><h3>Intelligent software</h3><p>Tools that connect human intent to machine actions. Agent interfaces, MCP integration, and supervised workflows.</p><span class="row-tag">CURRENT WORK</span></article>
+<article><span class="row-number">02</span><h3>Hardware &amp; systems</h3><p>Working across the boundary between code and electronics: video capture, input emulation, and reliable control paths.</p><span class="row-tag">CURRENT WORK</span></article>
+<article><span class="row-number">03</span><h3>Experimental research</h3><p>Turning an idea into something testable. Prototypes, documented constraints, and repeatable evaluation.</p><span class="row-tag">OUR METHOD</span></article>
+<article><span class="row-number">04</span><h3>Aerospace &amp; machinery</h3><p>A longer-term research direction: applying systems thinking to machines beyond the desktop.</p><span class="row-tag">EXPLORATION</span></article>
+</div></div></section>
+<section class="section container demo-section">
+<div class="demo-preview" aria-hidden="true"><div class="terminal-top"><span>● ● ●</span><span>SRC / WORKFLOW SIMULATION</span></div><div class="terminal-body"><p class="terminal-muted">TASK</p><p>Inspect the boot environment.</p><div class="terminal-rule"></div><p><span>01</span> Observe screen</p><p><span>02</span> Interpret state</p><p><span>03</span> Send supervised input</p><p class="terminal-muted">HUMAN → SOFTWARE → HARDWARE</p></div></div>
+<div><p class="eyebrow">03 / EXPLORE THE INTERACTION</p><h2>See the idea<br>in motion.</h2><p class="section-description">Step into an illustrated SRC workflow. The interactive simulator shows the concept of screen observation and hardware input; it does not connect to or control a real computer.</p><a class="btn-primary" href="demo.html">Open the simulator ↗</a></div>
+</section>
+<section class="founder-section container"><div class="founder-mark" aria-hidden="true">XIII<span>FOUNDED ON CURIOSITY.</span></div><div><p class="eyebrow">THE PERSON BEHIND THE LAB</p><h2>Ali Ganji</h2><p class="founder-role">Founder &amp; Director</p><p>Working at the intersection of cybersecurity, software, and hardware integration. LabXIII is where those interests become systems to build, question, and improve.</p><a class="text-link" href="https://www.linkedin.com/in/ganjiali">Connect with Ali ↗</a></div></section>
+</main><footer id="contact" class="footer">
+<div class="container">
+<div class="contact-heading"><div><p class="eyebrow">NEXT CONVERSATION</p><h2>Bring a difficult<br>problem.</h2></div><div class="contact-copy"><p>Exploring hardware control, an AI integration, or a research collaboration? Tell us what you are working on.</p><a class="contact-email" href="mailto:aliganji@labxiii.org">aliganji@labxiii.org <span aria-hidden="true">↗</span></a></div></div>
+<div class="footer-bottom"><a class="wordmark" href="index.html">LABXIII<span class="brand-dot">.</span></a><p>© 2026 LabXIII Ltd · England &amp; Wales<br>Company number <a href="https://find-and-update.company-information.service.gov.uk/company/16523432">16523432</a></p><div class="footer-links"><a href="https://github.com/Z23599848/src">GitHub ↗</a><a href="https://www.linkedin.com/in/ganjiali">LinkedIn ↗</a></div></div>
+</div></footer><div id="preorder-modal" class="modal-backdrop">
         <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="enquiry-title">
             <button class="modal-close-btn" onclick="closePreorderModal()" aria-label="Close modal">&times;</button>
             
@@ -277,44 +80,44 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="po-name">Full Name *</label>
-                            <input type="text" id="po-name" autocomplete="name" maxlength="120" class="form-control" placeholder="Dr. Jane Doe" required>
+                            <input type="text" id="po-name" autocomplete="name" maxlength="120" class="form-control" placeholder="Your name" required>
                         </div>
                         <div class="form-group">
-                            <label for="po-email">Corporate / Work Email *</label>
-                            <input type="email" id="po-email" autocomplete="email" maxlength="254" class="form-control" placeholder="jane.doe@enterprise.com" required>
+                            <label for="po-email">Email *</label>
+                            <input type="email" id="po-email" autocomplete="email" maxlength="254" class="form-control" placeholder="you@example.com" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="po-org">Organization / Institution *</label>
-                            <input type="text" id="po-org" autocomplete="organization" maxlength="160" class="form-control" placeholder="Defense Lab / Datacenter Inc." required>
+                            <label for="po-org">Organization or project *</label>
+                            <input type="text" id="po-org" autocomplete="organization" maxlength="160" class="form-control" placeholder="Company, university, or personal project" required>
                         </div>
                         <div class="form-group">
-                            <label for="po-units">Allocation Request *</label>
+                            <label for="po-units">Evaluation size *</label>
                             <select id="po-units" class="form-control" required>
-                                <option value="1 Unit (Evaluation)">1 Unit — Evaluation &amp; Dev Kit</option>
-                                <option value="2-5 Units (Pilot)">2–5 Units — Pilot Deployment</option>
-                                <option value="10-25 Units (Datacenter)">10–25 Units — Datacenter Cluster</option>
-                                <option value="Enterprise Fleet (25+)">&gt; 25 Units — Enterprise Fleet Allocation</option>
+                                <option value="1 Unit (Evaluation)">1 machine — initial evaluation</option>
+                                <option value="2-5 Units (Pilot)">2–5 machines</option>
+                                <option value="6-25 machines">6–25 machines</option>
+                                <option value="Enterprise Fleet (25+)">&gt; 25 Units — Larger evaluation</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="po-usecase">Primary Deployment Environment</label>
+                        <label for="po-usecase">What would you like to explore?</label>
                         <select id="po-usecase" class="form-control">
-                            <option value="Air-Gapped Infrastructure">Air-Gapped / Classified Computational Infrastructure</option>
+                            <option value="Air-Gapped Infrastructure">Network-isolated systems</option>
                             <option value="Datacenter Bare-Metal Automation">Datacenter Cold-Boot &amp; OS Provisioning</option>
-                            <option value="Autonomous AI Lab Automation">Autonomous Physical AI Lab Automation</option>
+                            <option value="Autonomous AI Lab Automation">Supervised AI lab workflows</option>
                             <option value="Emergency Disaster Recovery">Emergency Kernel &amp; Remote Disaster Recovery</option>
                             <option value="Academic & Research">Academic &amp; Systems Research</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="po-notes">Technical Requirements or Custom Firmware Needs</label>
-                        <textarea id="po-notes" maxlength="600" class="form-control" rows="2" placeholder="e.g., custom MCP tools, IPMI/Redfish fallback, specific enclosure brackets..."></textarea>
+                        <label for="po-notes">Tell us about your setup</label>
+                        <textarea id="po-notes" maxlength="600" class="form-control" rows="2" placeholder="Target computer, operating system, available interfaces, and what you want to test."></textarea>
                     </div>
 
                     <div class="form-footer">
@@ -346,5 +149,4 @@
         </div>
     </div>
 
-</body>
-</html>
+</body></html>

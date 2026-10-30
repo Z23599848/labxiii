@@ -45,17 +45,17 @@ function setup(options = {}) {
 }
 test('product page works without optional theme controls or graphics libraries', () => {
     const t = setup(); t.fire('DOMContentLoaded');
-    assert.equal(t.document.documentElement.attrs['data-theme'], 'dark');
+    assert.equal(t.document.documentElement.attrs['data-theme'], 'light');
 });
 test('blocked storage does not break theme switching', () => {
     const t = setup({ blocked: true });
     const toggle = t.element('theme-toggle');
     t.fire('DOMContentLoaded'); toggle.fire('click');
-    assert.equal(t.document.documentElement.attrs['data-theme'], 'light');
-});
-test('invalid stored themes fall back to dark', () => {
-    const t = setup({ theme: 'invalid' }); t.fire('DOMContentLoaded');
     assert.equal(t.document.documentElement.attrs['data-theme'], 'dark');
+});
+test('invalid stored themes fall back to light', () => {
+    const t = setup({ theme: 'invalid' }); t.fire('DOMContentLoaded');
+    assert.equal(t.document.documentElement.attrs['data-theme'], 'light');
 });
 test('mobile menu opens and closes with Escape', () => {
     const t = setup();

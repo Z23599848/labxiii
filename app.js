@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const root = document.documentElement;
     const toggle = document.getElementById('theme-toggle');
-    let theme = 'dark';
+    let theme = 'light';
     try {
         const saved = localStorage.getItem('theme');
         if (saved === 'light' || saved === 'dark') theme = saved;
