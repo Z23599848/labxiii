@@ -78,11 +78,14 @@
             color: var(--text-main);
         }
     </style>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="canonical" href="https://labxiii.org/src.html">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
 
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar" id="navbar" aria-label="Main navigation">
         <div class="nav-container">
             <div class="logo">
                 <a href="index.html" style="display:flex; align-items:center; gap:12px;">
@@ -90,15 +93,17 @@
                     <span class="company-name">LabXIII</span>
                 </a>
             </div>
-            <ul class="nav-links">
+            <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" hidden>Menu</button>
+            <ul class="nav-links" id="primary-navigation">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index.html#src-product" class="nav-highlight">SRC Appliance <span class="nav-badge">V1.0</span></a></li>
                 <li><a href="#specs">Specifications</a></li>
-                <li><a href="#preorder" class="btn-preorder-nav" onclick="openPreorderModal(event)">Reserve Batch 01</a></li>
+                <li><a href="mailto:aliganji@labxiii.org" class="btn-preorder-nav" onclick="openPreorderModal(event)">Enquire about SRC</a></li>
                 <li><a href="index.html#contact" class="btn-primary-outline">Contact</a></li>
             </ul>
         </div>
     </nav>
+    <main id="main-content" tabindex="-1">
 
     <!-- Page Hero -->
     <header class="page-hero">
@@ -112,7 +117,8 @@
                 The world's first open Model Context Protocol (MCP) appliance delivering sub-OS visual cognition, USB HID actuation, and hardware-isolated governance for air-gapped computational assets.
             </p>
             <div class="hero-actions">
-                <button class="btn-accent" onclick="openPreorderModal(event)">Reserve Priority Pre-Order (Batch 01)</button>
+                <a href="demo.html" class="btn-secondary">Try the interactive demo</a>
+                <button class="btn-accent" onclick="openPreorderModal(event)">Enquire about SRC</button>
                 <a href="https://github.com/Z23599848/src" target="_blank" rel="noopener noreferrer" class="btn-secondary">Open-Source Repository</a>
             </div>
         </div>
@@ -124,7 +130,7 @@
             <div class="product-grid" style="margin-top:0;">
                 
                 <div class="product-visual-wrap reveal">
-                    <img src="src-hardware.jpg" alt="SRC Commercial Enclosure Product Photograph" class="product-main-img" style="height:440px;">
+                    <img src="src-hardware.jpg" alt="SRC Commercial Enclosure Product Photograph" class="product-main-img" >
                     <div class="product-status-overlay">
                         <span class="pill-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span>
                         ANODIZED SPACE-GRAY CHASSIS
@@ -168,14 +174,14 @@
                     <div class="preorder-banner-box">
                         <div class="preorder-meta-row">
                             <div class="preorder-batch-badge">
-                                <span>📦 Production Batch 01 Allocation</span>
+                                <span>SRC evaluation enquiries</span>
                             </div>
                             <div class="preorder-terms">
-                                <strong>Zero Deposit Today</strong> &bull; Q1 2027
+                                Availability and timing confirmed by email
                             </div>
                         </div>
                         <button class="btn-accent" onclick="openPreorderModal(event)" style="width:100%;">
-                            Reserve Your Commercial Unit &rarr;
+                            Discuss evaluation &rarr;
                         </button>
                     </div>
 
@@ -240,34 +246,35 @@
         </div>
     </section>
 
+    </main>
     <!-- Pre-Order Modal -->
     <div id="preorder-modal" class="modal-backdrop">
-        <div class="modal-window">
+        <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="enquiry-title">
             <button class="modal-close-btn" onclick="closePreorderModal()" aria-label="Close modal">&times;</button>
             
             <div id="preorder-form-container">
                 <div class="modal-header">
-                    <span class="badge-tag" style="margin-bottom:8px;">PRIORITY RESERVATION</span>
-                    <h3>Reserve Semantic Remote Control</h3>
-                    <p>Secure your Batch 01 allocation. Zero upfront deposit required today. Priority shipping begins Q1 2027.</p>
+                    <span class="badge-tag" style="margin-bottom:8px;">PRODUCT ENQUIRY</span>
+                    <h3 id="enquiry-title">Enquire about SRC</h3>
+                    <p>Tell us what you need. Prepare an email to discuss evaluation, availability, and deployment with LabXIII.</p>
                 </div>
 
                 <form id="preorder-form" onsubmit="handlePreorderSubmit(event)">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="po-name">Full Name *</label>
-                            <input type="text" id="po-name" class="form-control" placeholder="Dr. Jane Doe" required>
+                            <input type="text" id="po-name" autocomplete="name" maxlength="120" class="form-control" placeholder="Dr. Jane Doe" required>
                         </div>
                         <div class="form-group">
                             <label for="po-email">Corporate / Work Email *</label>
-                            <input type="email" id="po-email" class="form-control" placeholder="jane.doe@enterprise.com" required>
+                            <input type="email" id="po-email" autocomplete="email" maxlength="254" class="form-control" placeholder="jane.doe@enterprise.com" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="po-org">Organization / Institution *</label>
-                            <input type="text" id="po-org" class="form-control" placeholder="Defense Lab / Datacenter Inc." required>
+                            <input type="text" id="po-org" autocomplete="organization" maxlength="160" class="form-control" placeholder="Defense Lab / Datacenter Inc." required>
                         </div>
                         <div class="form-group">
                             <label for="po-units">Allocation Request *</label>
@@ -293,15 +300,15 @@
 
                     <div class="form-group">
                         <label for="po-notes">Technical Requirements or Custom Firmware Needs</label>
-                        <textarea id="po-notes" class="form-control" rows="2" placeholder="e.g., custom MCP tools, IPMI/Redfish fallback, specific enclosure brackets..."></textarea>
+                        <textarea id="po-notes" maxlength="600" class="form-control" rows="2" placeholder="e.g., custom MCP tools, IPMI/Redfish fallback, specific enclosure brackets..."></textarea>
                     </div>
 
                     <div class="form-footer">
                         <button type="submit" class="btn-accent" style="width:100%; padding:14px; font-size:1rem;">
-                            Confirm Priority Pre-Order Allocation &rarr;
+                            Prepare enquiry email &rarr;
                         </button>
                         <p class="form-notice">
-                            🔒 By reserving, your allocation is registered directly with LabXIII Ltd (Company No: 16523432). No payment is taken until product dispatch.
+                            Your details stay on this page until you send the email. This form does not register an order or take payment.
                         </p>
                     </div>
                 </form>
@@ -309,21 +316,17 @@
 
             <!-- Confirmation View -->
             <div id="preorder-confirmation" class="confirmation-card">
-                <div class="confirm-icon">✓</div>
-                <h3>Allocation Reserved!</h3>
-                <p style="color:var(--text-muted); font-size:0.95rem; margin-top:6px;">
-                    Thank you. Your early-adopter reservation for the Semantic Remote Control (SRC) has been formally registered with LabXIII Engineering.
-                </p>
-                <div>
-                    <span class="confirm-res-id" id="confirmed-res-code">SRC-B1-84920</span>
+                <div class="confirm-icon" aria-hidden="true">↗</div>
+                <h3 id="enquiry-ready-title" tabindex="-1">Your enquiry is ready to send</h3>
+                <p class="enquiry-help">Nothing has been sent or reserved yet. Open your email app and send the draft to LabXIII. We will reply to discuss availability and next steps.</p>
+                <div class="enquiry-actions">
+                    <a id="email-confirmation-link" href="mailto:aliganji@labxiii.org" class="btn-primary">Open email draft</a>
+                    <button type="button" class="btn-secondary" onclick="editEnquiry()">Edit details</button>
                 </div>
-                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.6; max-width:440px; margin:0 auto 24px;">
-                    A dispatch record has been queued for <strong id="confirmed-email-display" style="color:var(--text-main);"></strong>. We will contact your organization prior to Q1 2027 delivery with shipping logistics and firmware provisioning credentials.
-                </p>
-                <div style="display:flex; justify-content:center; gap:12px;">
-                    <button class="btn-primary" onclick="closePreorderModal()">Close Window</button>
-                    <a id="email-confirmation-link" href="#" class="btn-secondary" style="font-size:0.85rem; padding:10px 20px;">Email Copy to Myself</a>
-                </div>
+                <label for="enquiry-copy">No email app? Copy this message and send it to
+                    <a href="mailto:aliganji@labxiii.org">aliganji@labxiii.org</a>.
+                </label>
+                <textarea id="enquiry-copy" class="form-control" rows="8" readonly></textarea>
             </div>
 
         </div>
