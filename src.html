@@ -1,358 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semantic Remote Control (SRC) | LabXIII Hardware</title>
-    <meta name="description" content="Semantic Remote Control (SRC) by LabXIII Ltd. Hardware-level AI orchestration appliance for air-gapped systems and sub-OS firmware environments.">
-    <meta name="author" content="LabXIII Ltd">
-    <meta property="og:title" content="Semantic Remote Control (SRC) — Hardware AI Orchestration">
-    <meta property="og:description" content="Grant foundation models physical eyes, hands, and governance over air-gapped and sub-OS systems.">
-    <meta property="og:url" content="https://labxiii.org/src.html">
-    <meta property="og:type" content="product">
-    <meta property="og:image" content="https://labxiii.org/src-hardware.jpg">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .page-hero {
-            padding: 160px 0 80px;
-            text-align: center;
-        }
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(249, 115, 22, 0.12);
-            border: 1px solid var(--border-subtle);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-family: var(--font-heading);
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-        .main-headline {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            line-height: 1.1;
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-        .lead-text {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto 36px;
-            line-height: 1.6;
-        }
-        .hero-actions {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .tech-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 24px;
-            font-size: 0.95rem;
-        }
-        .tech-table th, .tech-table td {
-            padding: 14px 18px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-glass);
-        }
-        .tech-table th {
-            color: var(--text-muted);
-            font-family: var(--font-heading);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .tech-table td {
-            color: var(--text-main);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semantic Remote Control — LabXIII</title>
+<meta name="description" content="A development prototype for supervised computer administration through PiKVM video capture, USB input, a local HTTP bridge, and MCP.">
+<meta property="og:title" content="Semantic Remote Control — LabXIII">
+<meta property="og:description" content="A development prototype for supervised computer administration through PiKVM video capture, USB input, a local HTTP bridge, and MCP.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://labxiii.org/src.html">
+<meta property="og:image" content="https://labxiii.org/src-hardware.jpg">
+<link rel="canonical" href="https://labxiii.org/src.html">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <a href="index.html" style="display:flex; align-items:center; gap:12px;">
-                    <img src="logo.png" alt="LabXIII Logo">
-                    <span class="company-name">LabXIII</span>
-                </a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#src-product" class="nav-highlight">SRC Appliance <span class="nav-badge">V1.0</span></a></li>
-                <li><a href="#specs">Specifications</a></li>
-                <li><a href="#preorder" class="btn-preorder-nav" onclick="openPreorderModal(event)">Reserve Batch 01</a></li>
-                <li><a href="index.html#contact" class="btn-primary-outline">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Page Hero -->
-    <header class="page-hero">
-        <div class="container reveal">
-            <div class="hero-tag">
-                <span class="pill-dot"></span>
-                OFFICIAL PRODUCT SPECIFICATION &bull; COMMERCIAL APPLIANCE
-            </div>
-            <h1 class="main-headline">Semantic Remote Control</h1>
-            <p class="lead-text">
-                The world's first open Model Context Protocol (MCP) appliance delivering sub-OS visual cognition, USB HID actuation, and hardware-isolated governance for air-gapped computational assets.
-            </p>
-            <div class="hero-actions">
-                <button class="btn-accent" onclick="openPreorderModal(event)">Reserve Priority Pre-Order (Batch 01)</button>
-                <a href="https://github.com/Z23599848/src" target="_blank" rel="noopener noreferrer" class="btn-secondary">Open-Source Repository</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hardware Visual & Details -->
-    <section style="padding: 40px 0 100px;">
-        <div class="container">
-            <div class="product-grid" style="margin-top:0;">
-                
-                <div class="product-visual-wrap reveal">
-                    <img src="src-hardware.jpg" alt="SRC Commercial Enclosure Product Photograph" class="product-main-img" style="height:440px;">
-                    <div class="product-status-overlay">
-                        <span class="pill-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span>
-                        ANODIZED SPACE-GRAY CHASSIS
-                    </div>
-                    <div class="oled-simulation">
-                        <span>SRC v1.0 • AI LINK ACTIVE • 60 RPM</span>
-                        <div class="oled-indicators">
-                            <span class="led"><span class="led-dot led-pwr"></span> PWR</span>
-                            <span class="led"><span class="led-dot led-ai"></span> AI</span>
-                            <span class="led"><span class="led-dot led-kvm"></span> KVM</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-content reveal">
-                    <h3>Enterprise Hardware Architecture</h3>
-                    <p class="product-lead">Zero Software Ingress &bull; Physical Bus Isolation</p>
-                    <p class="product-desc">
-                        Conventional automation tools fail when operating systems crash, storage corrupts, or networks are physically severed. The SRC appliance acts as a synthetic human operator sitting directly in front of the machine with a screen and keyboard.
-                    </p>
-
-                    <div class="feature-cards-grid">
-                        <div class="feature-card-mini">
-                            <div class="f-title">🖥️ 1080p60 Hardware Capture</div>
-                            <div class="f-desc">WaveShare HDMI-to-CSI2 hardware bridge with &lt;80ms frame ingestion latency.</div>
-                        </div>
-                        <div class="feature-card-mini">
-                            <div class="f-title">⌨️ Zero-Driver USB Emulation</div>
-                            <div class="f-desc">Hardware USB OTG HID stack natively recognized as keyboard &amp; mouse by any BIOS.</div>
-                        </div>
-                        <div class="feature-card-mini">
-                            <div class="f-title">📡 Out-of-Band Cellular Link</div>
-                            <div class="f-desc">Dedicated 4G/LTE connectivity ensures administrative reach without host network access.</div>
-                        </div>
-                        <div class="feature-card-mini">
-                            <div class="f-title">🔋 Dual UPS Battery Reserve</div>
-                            <div class="f-desc">Independent power buffer prevents controller brownout during target host power cycling.</div>
-                        </div>
-                    </div>
-
-                    <div class="preorder-banner-box">
-                        <div class="preorder-meta-row">
-                            <div class="preorder-batch-badge">
-                                <span>📦 Production Batch 01 Allocation</span>
-                            </div>
-                            <div class="preorder-terms">
-                                <strong>Zero Deposit Today</strong> &bull; Q1 2027
-                            </div>
-                        </div>
-                        <button class="btn-accent" onclick="openPreorderModal(event)" style="width:100%;">
-                            Reserve Your Commercial Unit &rarr;
-                        </button>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Technical Specifications Section -->
-    <section id="specs" style="padding: 80px 0; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border-glass);">
-        <div class="container reveal">
-            <h2 class="section-title">Technical Specifications</h2>
-            <div class="glass" style="padding: 24px; border-radius: 12px; overflow-x: auto;">
-                <table class="tech-table">
-                    <thead>
-                        <tr>
-                            <th>Subsystem</th>
-                            <th>Specification</th>
-                            <th>Operational Benefit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Chassis &amp; Thermal</strong></td>
-                            <td>CNC-Milled 6061-T6 Anodized Aluminum (Space-Gray)</td>
-                            <td>Fanless passive convection, zero acoustic noise, rugged industrial durability</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Video Engine</strong></td>
-                            <td>HDMI 1.4 Ingestion via dedicated CSI-2 Hardware Bus</td>
-                            <td>1080p @ 60 FPS / 720p @ 60 FPS, hardware MJPEG compression (&lt;80ms capture latency)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Actuation Stack</strong></td>
-                            <td>Hardware USB OTG Type-C HID Emulation</td>
-                            <td>Full keycode coverage (BIOS navigation, UEFI boot selection, modifier combinations)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>AI Protocol</strong></td>
-                            <td>Model Context Protocol (MCP) over stdio JSON-RPC</td>
-                            <td>Native plug-and-play compatibility with Claude Desktop, OpenHands, and Agent SDKs</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Safety Architecture</strong></td>
-                            <td>Dual-Tier Hardened Bridge Proxy (timing-safe auth, 60 RPM limiter)</td>
-                            <td>Immune to prompt injection escalation; AI agent never receives root hardware credentials</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Emergency Link</strong></td>
-                            <td>Pimoroni Clipper LTE/4G HAT + Fallback pgrok cryptographic tunnel</td>
-                            <td>Out-of-band disaster reachability during total facility network outages</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Battery Protection</strong></td>
-                            <td>Waveshare UPS HAT with dynamic voltage monitoring</td>
-                            <td>Continuous controller uptime across host cold reboots and power resets</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pre-Order Modal -->
-    <div id="preorder-modal" class="modal-backdrop">
-        <div class="modal-window">
+<a class="skip-link" href="#main-content">Skip to content</a><nav class="navbar" aria-label="Main navigation">
+<div class="nav-container">
+<a class="wordmark" href="index.html" aria-label="LabXIII home"><img src="logo.png" alt="" width="34" height="34"><span>LAB<span class="wordmark-numeral">XIII</span><span class="brand-dot">.</span></span></a>
+<button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation" hidden>Menu</button>
+<ul id="primary-navigation" class="nav-links">
+<li><a href="src.html" aria-current="page">SRC project</a></li>
+<li><a href="index.html#research">Research</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a href="demo.html">Interactive demo ↗</a></li>
+<li><a class="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a></li>
+<li><button id="theme-toggle" class="theme-toggle" aria-label="Switch colour theme">◐</button></li>
+</ul></div></nav>
+<main id="main-content" tabindex="-1">
+<header class="product-hero container"><div class="hero-overline"><a class="eyebrow" href="index.html">← LABXIII / PROJECT 001</a><span class="status-chip">Development prototype</span></div><h1>Control begins<br><span class="serif-word">below the OS.</span></h1><div class="hero-bottom"><p>Semantic Remote Control connects supervised software to a computer’s screen, keyboard, and mouse through PiKVM. A different route in when remote desktop or an operating-system agent is unavailable.</p><div class="actions"><a class="btn-primary" href="demo.html">Try the simulator ↗</a><a class="text-link" href="https://github.com/Z23599848/src">Explore the source ↗</a></div></div></header>
+<section class="container product-stage" aria-label="SRC concept design"><div class="stage-label"><span>SRC / SEMANTIC REMOTE CONTROL</span><span>ENCLOSURE STUDY — 01</span></div><img src="src-hardware.jpg" alt="Concept rendering of a dark metal SRC enclosure with display and connection ports" width="1024" height="768" fetchpriority="high"><div class="stage-caption"><span>Concept enclosure. Current implementation is a development prototype.</span><a href="https://github.com/Z23599848/src#-assembled-hardware-interface">See assembled hardware ↗</a></div></section>
+<section class="section container introduction"><div><p class="eyebrow">01 / WHY HARDWARE?</p><h2>A computer can<br>lose its software<br><span class="muted">way in.</span></h2></div><div class="editorial-copy"><p class="lead">Remote desktop and SSH depend on services running inside the target machine. Some tasks begin before those services exist.</p><p>SRC explores another path: capture the display through PiKVM and deliver keyboard and mouse actions through USB. The interaction happens at the computer’s physical interfaces.</p><p>This creates a foundation for supervised administration, boot-screen inspection, and lab experiments. Actual behaviour depends on the connected hardware, configuration, and target system.</p></div></section>
+<section class="architecture-section"><div class="container section"><div class="section-heading"><div><p class="eyebrow">02 / THE CONTROL PATH</p><h2>Observe. Decide.<br>Act. Check.</h2></div><p>A small set of components separates the operator interface from the hardware connection. Screenshots travel back; input commands travel forward.</p></div>
+<ol class="architecture-grid"><li><span class="row-number">01 / INTENT</span><h3>Operator or MCP client</h3><p>A person directs the task through the Operator UI or a connected MCP client.</p></li><li><span class="row-number">02 / BOUNDARY</span><h3>Local HTTP bridge</h3><p>The bridge handles authentication, input validation, request limits, and audit records.</p></li><li><span class="row-number">03 / INTERFACE</span><h3>PiKVM + target</h3><p>PiKVM provides screen capture and USB keyboard/mouse interaction with the target computer.</p></li></ol>
+<div class="architecture-note"><span class="status-dot"></span><p>The target can be network-isolated. The controller still needs access to PiKVM and, when using the Operator UI, the configured OpenAI service.</p></div></div></section>
+<section class="section container" id="use-cases"><div class="section-heading"><div><p class="eyebrow">03 / WHAT TO EXPLORE</p><h2>Built around<br>real questions.</h2></div><p>Evaluation scenarios for the prototype—not claims of completed recovery or production readiness.</p></div><div class="scenario-grid">
+<article><div class="scenario-symbol" aria-hidden="true">↳</div><h3>Before the OS starts</h3><p>Can an operator inspect a boot screen and navigate firmware interfaces through the same visual control path?</p><span>BOOT &amp; FIRMWARE</span></article>
+<article><div class="scenario-symbol" aria-hidden="true">⌁</div><h3>When remote access fails</h3><p>What can still be observed and controlled when the target’s usual remote-access service is unavailable?</p><span>SYSTEM ADMINISTRATION</span></article>
+<article><div class="scenario-symbol" aria-hidden="true">↔</div><h3>Inside an AI lab</h3><p>How can an agent connect visual reasoning to physical input while keeping a person involved in the workflow?</p><span>HUMAN–AGENT INTERACTION</span></article></div></section>
+<section class="status-section"><div class="container section"><div class="section-heading"><div><p class="eyebrow">04 / OPEN DEVELOPMENT</p><h2>Know what<br>you’re evaluating.</h2></div><a class="text-link" href="https://github.com/Z23599848/src">Read the project documentation ↗</a></div>
+<div class="status-grid"><article><span class="eyebrow">IN THE REPOSITORY</span><h3>A working software foundation</h3><ul class="plain-list"><li>Authenticated PiKVM bridge with validation and audit logs</li><li>Stdio MCP server for connected clients</li><li>Browser / Electron Operator interface</li><li>Docker setup and automated software checks</li></ul></article><article><span class="eyebrow">STILL TO ESTABLISH</span><h3>Measured hardware outcomes</h3><p>Mock-based software tests do not establish physical compatibility or successful real-machine recovery. Hardware trials and deployment-specific evaluation remain necessary.</p><p>The enclosure shown here is a concept visual. Commercial specifications, pricing, and delivery dates are not confirmed.</p></article></div></div></section>
+<section class="section container faq-section"><div><p class="eyebrow">05 / GOOD QUESTIONS</p><h2>A little more<br>context.</h2><p class="section-description">For technical setup, the repository is the source of truth.</p></div><div class="faq-list">
+<details><summary>Does SRC install software on the target computer?</summary><p>The control path uses PiKVM video capture and USB keyboard/mouse input rather than an OS-level agent on the target. The controller runs the bridge and its clients.</p></details>
+<details><summary>Does it work entirely offline?</summary><p>Not in the current Operator UI configuration. The target can be network-isolated, but the controller needs access to PiKVM and OpenAI. Task text and screenshots are sent to the configured OpenAI service.</p></details>
+<details><summary>What does “supervised” mean?</summary><p>A person directs and monitors the work. Stop cancels pending work; input already dispatched may still take effect. Optional power actions must be deliberately enabled.</p></details>
+<details><summary>Is the demo connected to a live device?</summary><p>No. The website demo is a simulator that illustrates the interaction. It does not demonstrate a live hardware connection or measured performance.</p></details>
+<details><summary>Can I buy or evaluate SRC?</summary><p>SRC is in development. Contact LabXIII to discuss your evaluation needs or explore the public source. An enquiry is not an order, allocation, or shipping commitment.</p></details>
+</div></section>
+<section class="container enquiry-banner"><div><p class="eyebrow">LET’S EXPLORE THE FIT</p><h2>Have a machine<br>in mind?</h2><p>Tell us about your environment, the problem you want to solve, and what you need to evaluate.</p></div><a class="btn-primary" href="mailto:aliganji@labxiii.org" onclick="openPreorderModal(event)">Start an SRC conversation ↗</a></section>
+</main><footer id="contact" class="footer">
+<div class="container">
+<div class="contact-heading"><div><p class="eyebrow">NEXT CONVERSATION</p><h2>Bring a difficult<br>problem.</h2></div><div class="contact-copy"><p>Exploring hardware control, an AI integration, or a research collaboration? Tell us what you are working on.</p><a class="contact-email" href="mailto:aliganji@labxiii.org">aliganji@labxiii.org <span aria-hidden="true">↗</span></a></div></div>
+<div class="footer-bottom"><a class="wordmark" href="index.html">LABXIII<span class="brand-dot">.</span></a><p>© 2026 LabXIII Ltd · England &amp; Wales<br>Company number <a href="https://find-and-update.company-information.service.gov.uk/company/16523432">16523432</a></p><div class="footer-links"><a href="https://github.com/Z23599848/src">GitHub ↗</a><a href="https://www.linkedin.com/in/ganjiali">LinkedIn ↗</a></div></div>
+</div></footer><div id="preorder-modal" class="modal-backdrop">
+        <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="enquiry-title">
             <button class="modal-close-btn" onclick="closePreorderModal()" aria-label="Close modal">&times;</button>
             
             <div id="preorder-form-container">
                 <div class="modal-header">
-                    <span class="badge-tag" style="margin-bottom:8px;">PRIORITY RESERVATION</span>
-                    <h3>Reserve Semantic Remote Control</h3>
-                    <p>Secure your Batch 01 allocation. Zero upfront deposit required today. Priority shipping begins Q1 2027.</p>
+                    <span class="badge-tag" style="margin-bottom:8px;">PRODUCT ENQUIRY</span>
+                    <h3 id="enquiry-title">Enquire about SRC</h3>
+                    <p>Tell us what you need. Prepare an email to discuss evaluation, availability, and deployment with LabXIII.</p>
                 </div>
 
                 <form id="preorder-form" onsubmit="handlePreorderSubmit(event)">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="po-name">Full Name *</label>
-                            <input type="text" id="po-name" class="form-control" placeholder="Dr. Jane Doe" required>
+                            <input type="text" id="po-name" autocomplete="name" maxlength="120" class="form-control" placeholder="Your name" required>
                         </div>
                         <div class="form-group">
-                            <label for="po-email">Corporate / Work Email *</label>
-                            <input type="email" id="po-email" class="form-control" placeholder="jane.doe@enterprise.com" required>
+                            <label for="po-email">Email *</label>
+                            <input type="email" id="po-email" autocomplete="email" maxlength="254" class="form-control" placeholder="you@example.com" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="po-org">Organization / Institution *</label>
-                            <input type="text" id="po-org" class="form-control" placeholder="Defense Lab / Datacenter Inc." required>
+                            <label for="po-org">Organization or project *</label>
+                            <input type="text" id="po-org" autocomplete="organization" maxlength="160" class="form-control" placeholder="Company, university, or personal project" required>
                         </div>
                         <div class="form-group">
-                            <label for="po-units">Allocation Request *</label>
+                            <label for="po-units">Evaluation size *</label>
                             <select id="po-units" class="form-control" required>
-                                <option value="1 Unit (Evaluation)">1 Unit — Evaluation &amp; Dev Kit</option>
-                                <option value="2-5 Units (Pilot)">2–5 Units — Pilot Deployment</option>
-                                <option value="10-25 Units (Datacenter)">10–25 Units — Datacenter Cluster</option>
-                                <option value="Enterprise Fleet (25+)">&gt; 25 Units — Enterprise Fleet Allocation</option>
+                                <option value="1 Unit (Evaluation)">1 machine — initial evaluation</option>
+                                <option value="2-5 Units (Pilot)">2–5 machines</option>
+                                <option value="6-25 machines">6–25 machines</option>
+                                <option value="Enterprise Fleet (25+)">&gt; 25 Units — Larger evaluation</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="po-usecase">Primary Deployment Environment</label>
+                        <label for="po-usecase">What would you like to explore?</label>
                         <select id="po-usecase" class="form-control">
-                            <option value="Air-Gapped Infrastructure">Air-Gapped / Classified Computational Infrastructure</option>
+                            <option value="Air-Gapped Infrastructure">Network-isolated systems</option>
                             <option value="Datacenter Bare-Metal Automation">Datacenter Cold-Boot &amp; OS Provisioning</option>
-                            <option value="Autonomous AI Lab Automation">Autonomous Physical AI Lab Automation</option>
+                            <option value="Autonomous AI Lab Automation">Supervised AI lab workflows</option>
                             <option value="Emergency Disaster Recovery">Emergency Kernel &amp; Remote Disaster Recovery</option>
                             <option value="Academic & Research">Academic &amp; Systems Research</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="po-notes">Technical Requirements or Custom Firmware Needs</label>
-                        <textarea id="po-notes" class="form-control" rows="2" placeholder="e.g., custom MCP tools, IPMI/Redfish fallback, specific enclosure brackets..."></textarea>
+                        <label for="po-notes">Tell us about your setup</label>
+                        <textarea id="po-notes" maxlength="600" class="form-control" rows="2" placeholder="Target computer, operating system, available interfaces, and what you want to test."></textarea>
                     </div>
 
                     <div class="form-footer">
                         <button type="submit" class="btn-accent" style="width:100%; padding:14px; font-size:1rem;">
-                            Confirm Priority Pre-Order Allocation &rarr;
+                            Prepare enquiry email &rarr;
                         </button>
                         <p class="form-notice">
-                            🔒 By reserving, your allocation is registered directly with LabXIII Ltd (Company No: 16523432). No payment is taken until product dispatch.
+                            Your details stay on this page until you send the email. This form does not register an order or take payment.
                         </p>
                     </div>
                 </form>
             </div>
 
-            <!-- Confirmation View -->
+            <!-- Confirmation View (Shown upon submission) -->
             <div id="preorder-confirmation" class="confirmation-card">
-                <div class="confirm-icon">✓</div>
-                <h3>Allocation Reserved!</h3>
-                <p style="color:var(--text-muted); font-size:0.95rem; margin-top:6px;">
-                    Thank you. Your early-adopter reservation for the Semantic Remote Control (SRC) has been formally registered with LabXIII Engineering.
-                </p>
-                <div>
-                    <span class="confirm-res-id" id="confirmed-res-code">SRC-B1-84920</span>
+                <div class="confirm-icon" aria-hidden="true">↗</div>
+                <h3 id="enquiry-ready-title" tabindex="-1">Your enquiry is ready to send</h3>
+                <p class="enquiry-help">Nothing has been sent or reserved yet. Open your email app and send the draft to LabXIII. We will reply to discuss availability and next steps.</p>
+                <div class="enquiry-actions">
+                    <a id="email-confirmation-link" href="mailto:aliganji@labxiii.org" class="btn-primary">Open email draft</a>
+                    <button type="button" class="btn-secondary" onclick="editEnquiry()">Edit details</button>
                 </div>
-                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.6; max-width:440px; margin:0 auto 24px;">
-                    A dispatch record has been queued for <strong id="confirmed-email-display" style="color:var(--text-main);"></strong>. We will contact your organization prior to Q1 2027 delivery with shipping logistics and firmware provisioning credentials.
-                </p>
-                <div style="display:flex; justify-content:center; gap:12px;">
-                    <button class="btn-primary" onclick="closePreorderModal()">Close Window</button>
-                    <a id="email-confirmation-link" href="#" class="btn-secondary" style="font-size:0.85rem; padding:10px 20px;">Email Copy to Myself</a>
-                </div>
+                <label for="enquiry-copy">No email app? Copy this message and send it to
+                    <a href="mailto:aliganji@labxiii.org">aliganji@labxiii.org</a>.
+                </label>
+                <textarea id="enquiry-copy" class="form-control" rows="8" readonly></textarea>
             </div>
 
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <h2>LabXIII</h2>
-                    <p>Engineering the Future &bull; Hardware Division</p>
-                </div>
-                <div class="footer-contact">
-                    <h4>Direct Inquiries</h4>
-                    <a href="mailto:aliganji@labxiii.org" class="email-link">aliganji@labxiii.org</a>
-                </div>
-                <div class="footer-legal">
-                    <h4>Corporate Identity</h4>
-                    <p>Registered in England and Wales</p>
-                    <p>Company No: <strong>16523432</strong></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 LabXIII Ltd. All rights reserved. Semantic Remote Control (SRC) is an engineered commercial technology of LabXIII Ltd.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="app.js"></script>
-</body>
-</html>
+</body></html>
