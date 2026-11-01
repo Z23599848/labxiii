@@ -124,7 +124,7 @@
             <div class="product-grid" style="margin-top:0;">
                 
                 <div class="product-visual-wrap reveal">
-                    <img src="src-hardware.jpg" alt="SRC Commercial Enclosure Product Photograph" class="product-main-img" style="height:440px;">
+                    <img src="src-hardware-device.png" alt="SRC Commercial Enclosure Product Photograph" class="product-main-img" style="height:440px;">
                     <div class="product-status-overlay">
                         <span class="pill-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span>
                         ANODIZED SPACE-GRAY CHASSIS
@@ -239,6 +239,138 @@
             </div>
         </div>
     </section>
+
+
+    <!-- Architectural Resilience Matrix (Directly from FYP Poster Data) -->
+    <section id="resilience" style="padding: 80px 0; background: var(--bg-subtle); border-top: 1px solid var(--border-subtle);">
+        <div class="container reveal">
+            <span class="badge-tag" style="margin-bottom: 12px;">
+                <span class="pill-dot"></span>
+                ARCHITECTURAL CAPABILITY BENCHMARK (BY DESIGN)
+            </span>
+            <h2 class="section-title">In-Band vs. Out-of-Band Resilience</h2>
+            <p class="section-text" style="max-width: 820px; margin-bottom: 32px;">
+                Demonstrating why conventional software-only automation collapses during critical failures, and how SRC's hardware-layer closed loop guarantees administrative reach.
+            </p>
+
+            <div class="glass" style="padding: 24px; border-radius: 12px; overflow-x: auto; margin-bottom: 48px;">
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Scenario / Architectural Feature</th>
+                            <th>In-Band (SSH / Ansible / Cloud API)</th>
+                            <th>Blind Hardware (BadUSB / Rubber Ducky)</th>
+                            <th>SRC Out-of-Band Appliance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>BIOS / UEFI Firmware Setup</strong></td>
+                            <td><span style="color:#ef4444; font-weight:600;">✗ Fails</span> — Target OS stack not yet loaded</td>
+                            <td><span style="color:#f59e0b; font-weight:600;">⚠ Blind</span> — Keystrokes sent without visual feedback</td>
+                            <td><span style="color:#10b981; font-weight:600;">✓ Full OOB Control</span> — Visual OCR + USB HID keystrokes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Target Network Interface Down</strong></td>
+                            <td><span style="color:#ef4444; font-weight:600;">✗ Connection Lost</span> — All management agents unreachable</td>
+                            <td><span style="color:#f59e0b; font-weight:600;">⚠ Blind</span> — No verification of network recovery</td>
+                            <td><span style="color:#10b981; font-weight:600;">✓ Isolated Video Path</span> — Independent 4G/OOB management link</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kernel Panic / BSOD / Bootloader Corruption</strong></td>
+                            <td><span style="color:#ef4444; font-weight:600;">✗ Daemon Dead</span> — Target user-space crashed</td>
+                            <td><span style="color:#ef4444; font-weight:600;">✗ Ignored</span> — Crash screens halt script execution</td>
+                            <td><span style="color:#10b981; font-weight:600;">✓ OCR Diagnostic</span> — Multimodal VLM parses kernel stack traces</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Real-Time Visual State Verification</strong></td>
+                            <td><span style="color:#ef4444; font-weight:600;">✗ None</span> — Relies solely on command exit codes</td>
+                            <td><span style="color:#ef4444; font-weight:600;">✗ None</span> — Unidirectional open-loop injection</td>
+                            <td><span style="color:#10b981; font-weight:600;">✓ Continuous 1080p60</span> — ReAct loop re-captures after every keypress</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Root Credential Isolation</strong></td>
+                            <td><span style="color:#f59e0b; font-weight:600;">⚠ Direct Exposure</span> — AI agent holds direct root SSH keys</td>
+                            <td><span style="color:#ef4444; font-weight:600;">✗ Burned</span> — Plaintext keys baked into device payloads</td>
+                            <td><span style="color:#10b981; font-weight:600;">✓ Local Security Proxy</span> — LLM never receives root hardware keys</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Buyer & Investor Procurement Section -->
+            <div class="editions-container">
+                <div class="editions-title-row">
+                    <div>
+                        <span class="badge-tag" style="margin-bottom:8px;">COMMERCIAL PROCUREMENT &amp; INVESTMENT</span>
+                        <h3 style="font-size:1.6rem; font-weight:600; color:var(--text-main);">Reserve Hardware or Inquire for Enterprise Fleet</h3>
+                    </div>
+                    <div>
+                        <span style="font-size:0.9rem; color:var(--text-muted);">Batch 01 Delivery: Q1 2027</span>
+                    </div>
+                </div>
+
+                <div class="editions-grid">
+                    <div class="edition-card">
+                        <span class="edition-tier">Developer &bull; Turnkey Node</span>
+                        <h4 class="edition-name">SRC Developer Evaluation Kit</h4>
+                        <p class="edition-desc">Turnkey single-node hardware unit for AI research labs, automated physical testbeds, and systems engineers.</p>
+                        <ul class="edition-features">
+                            <li>Pre-configured PiKVM v2 + TC358743 HDMI-CSI bridge</li>
+                            <li>Native stdio MCP server for Claude Desktop / OpenHands</li>
+                            <li>Zero target machine software installation</li>
+                        </ul>
+                        <button class="btn-primary" onclick="openPreorderModal(event)" style="width:100%; font-size:0.85rem; padding:10px;">Pre-Order ($0 Deposit)</button>
+                    </div>
+
+                    <div class="edition-card" style="border-color: rgba(59, 130, 246, 0.4); background: var(--bg-card-hover);">
+                        <span class="edition-tier" style="color:#38bdf8;">Enterprise &bull; Datacenter Fleet</span>
+                        <h4 class="edition-name">Enterprise SRE Rack Cluster</h4>
+                        <p class="edition-desc">High-density 1U rackmount appliance orchestrating out-of-band recovery across multi-server datacenter aisles.</p>
+                        <ul class="edition-features">
+                            <li>Multi-target HDMI matrix &amp; USB HID multiplexing</li>
+                            <li>Integrated 4G/LTE cellular out-of-band uplink</li>
+                            <li>ATX power relay interlock with human gating</li>
+                        </ul>
+                        <button class="btn-accent" onclick="openPreorderModal(event)" style="width:100%; font-size:0.85rem; padding:10px;">Request Enterprise Allocation</button>
+                    </div>
+
+                    <div class="edition-card">
+                        <span class="edition-tier">Strategic &bull; Seed Round</span>
+                        <h4 class="edition-name">Investor &amp; Research Partnership</h4>
+                        <p class="edition-desc">LabXIII Ltd is scaling Batch 01 manufacturing, enterprise pilot programs, and sovereign defense research partnerships.</p>
+                        <ul class="edition-features">
+                            <li>Commercial IP &amp; hardware appliance licensing</li>
+                            <li>Enterprise SLA and custom MCP tool development</li>
+                            <li>University of Roehampton research heritage</li>
+                        </ul>
+                        <a href="mailto:aliganji@labxiii.org?subject=Investor%20%26%20Partnership%20Inquiry%20-%20SRC" class="btn-secondary" style="width:100%; font-size:0.85rem; padding:10px; text-align:center;">Contact Founder</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Research Poster Banner -->
+            <div class="poster-banner" style="margin-top: 36px;">
+                <div class="poster-banner-info">
+                    <span class="badge-tag" style="background:rgba(255,255,255,0.08); margin-bottom:8px;">ACADEMIC RESEARCH &amp; VERIFICATION</span>
+                    <h3>Official Final Year Project Research Poster</h3>
+                    <p>
+                        Download the formal academic poster detailing the theoretical limitations of in-band control, the multi-tier safety architecture, and IEEE references.
+                    </p>
+                </div>
+                <div class="poster-banner-actions">
+                    <a href="src-poster.pdf" target="_blank" class="btn-accent" style="display:inline-flex; align-items:center; gap:8px;">
+                        <span>📄 Download Academic Poster (PDF)</span>
+                    </a>
+                    <a href="https://github.com/Z23599848/src" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+                        <span>GitHub Repository</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
 
     <!-- Pre-Order Modal -->
     <div id="preorder-modal" class="modal-backdrop">
